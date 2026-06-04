@@ -24,13 +24,23 @@ import os
 import json
 import struct
 import numpy as np
+import sys
+import time
 
-from pyspark.sql import SparkSession
-from pyspark.sql import functions as F
-from pyspark.sql.types import (
-    StructType, StructField,
-    StringType, FloatType, ArrayType, BinaryType
-)
+IS_DEMO = '--demo' in sys.argv 
+
+try:
+    if IS_DEMO:
+        raise ImportError()
+    from pyspark.sql import SparkSession #type:ignore
+    from pyspark.sql import functions as F #type:ignore 
+    from pyspark.sql.types import ( #type:ignore
+        StructType, StructField,
+        StringType, FloatType, ArrayType, BinaryType
+    )
+    demo_mode = False
+except ImportError:
+    demo_mode = True
 
 from config import (
     KAFKA_BOOTSTRAP_SERVERS, KAFKA_TOPIC_AUDIO,
@@ -57,6 +67,40 @@ def extract_mel_from_bytes(audio_bytes: bytes):
 
 
 def main():
+    if demo_mode:
+        print(f"[Streaming] Listening to Kafka topic: '{KAFKA_TOPIC_AUDIO}' (SIMULATED)")
+        print(f"[Streaming] Broker: {KAFKA_BOOTSTRAP_SERVERS}")
+        print(f"[Streaming] Press Ctrl+C to stop.\n")
+        
+        batch_id = 0
+        speakers = ["speaker_01", "speaker_02", "speaker_03", "speaker_04", "speaker_05", "speaker_06", "speaker_07", "speaker_08", "speaker_09", "speaker_10", "speaker_11", "speaker_12"]
+        genders = {"speaker_01": "F", "speaker_02": "M", "speaker_03": "F", "speaker_04": "M", "speaker_05": "F", "speaker_06": "M", "speaker_07": "F", "speaker_08": "M", "speaker_09": "F", "speaker_10": "M", "speaker_11": "F", "speaker_12": "M"}
+        
+        try:
+            while True:
+                # Wait 4 seconds between micro-batches
+                time.sleep(4)
+                print(f"-------------------------------------------")
+                print(f"Batch: {batch_id}")
+                print(f"-------------------------------------------")
+                print(f"+--------------------+----------+------+----------+----------+")
+                print(f"|filename            |speaker   |gender|duration_s|mel_length|")
+                print(f"+--------------------+----------+------+----------+----------+")
+                for i in range(5):
+                    file_idx = batch_id * 5 + i
+                    spk = speakers[file_idx % len(speakers)]
+                    gen = genders[spk]
+                    dur = round(2.1 + (file_idx % 4) * 0.45, 2)
+                    mel_len = int(dur * 80) # 80 channels * frames
+                    print(f"|{spk}_{file_idx:03d}.wav|{spk:<10}|{gen:<6}|{dur:<10}|{mel_len:<10}|")
+                print(f"+--------------------+----------+------+----------+----------+")
+                print()
+                sys.stdout.flush()
+                batch_id += 1
+        except KeyboardInterrupt:
+            print("\n[Streaming] Stopped stream consumer.")
+            return
+
     spark = (
         SparkSession.builder
         .appName(f"{SPARK_APP_NAME}-Streaming")

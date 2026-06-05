@@ -33,28 +33,18 @@ export async function correctTranscript(transcript: string): Promise<string> {
 
 Your task is to reconstruct the most likely sentence the speaker intended to say.
 
-The transcript is a noisy phonetic approximation of spoken English.
-
 Rules:
 - Fix grammar, spelling, punctuation, and capitalization.
 - Correct misheard words and phrases.
-- Preserve the original meaning whenever it can be reasonably inferred.
+- Replace words that are semantically implausible with more likely alternatives based on context.
 - Prefer natural, fluent English over literal transcription.
-- Treat unusual or nonsensical words as potential speech-recognition errors.
-- When replacing a word or phrase, prefer alternatives that sound similar to the original transcript.
-- Do not replace a word with a contextually plausible alternative if its pronunciation is substantially different from the original, unless the intended wording is overwhelmingly obvious from context.
-- Minimize unnecessary changes.
-- Keep as much of the original wording as possible.
-- If multiple corrections are plausible, choose the one that best satisfies the following order of priority:
-  1. Phonetic similarity to the original transcript.
-  2. Contextual plausibility.
-  3. Grammatical correctness.
-  4. Natural real-world phrasing.
-- Favor corrections that could realistically have been misheard by a speech-to-text system.
+- If several corrections are possible, choose the most common real-world phrasing.
+- Preserve the original meaning.
 
 Return only the corrected sentence.
 
-Transcript: ${transcript}`
+Transcript:
+${transcript}`
         }
       ],
     }),

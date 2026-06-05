@@ -22,6 +22,7 @@ import { fadeInUp, staggerContainer, slideInLeft, slideInRight } from './animati
 import { correctTranscript } from './services/aiCorrection';
 import EducationalSection from './components/EducationalSection';
 import { generateConfidenceScores } from './services/mockApi';
+import { checkRateLimit } from './utils/rateLimiter';
 
 export default function App() {
   const {

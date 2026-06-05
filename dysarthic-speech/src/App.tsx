@@ -21,6 +21,7 @@ import { detectMediaType } from './utils/fileUtils';
 import { fadeInUp, staggerContainer, slideInLeft, slideInRight } from './animations/variants';
 import { correctTranscript } from './services/aiCorrection';
 import EducationalSection from './components/EducationalSection';
+import ProjectDetails from './components/ProjectDetails';
 import { generateConfidenceScores } from './services/mockApi';
 import { checkRateLimit } from './utils/rateLimiter';
 
@@ -246,10 +247,13 @@ export default function App() {
 
         {/* Educational Section */}
         {state.stage === 'idle' && (
-          <EducationalSection
-            onLoadSample={handleLoadSample}
-            isProcessing={state.stage !== 'idle' && state.stage !== 'completed' && state.stage !== 'error'}
-          />
+          <>
+            <EducationalSection
+              onLoadSample={handleLoadSample}
+              isProcessing={state.stage !== 'idle' && state.stage !== 'completed' && state.stage !== 'error'}
+            />
+            <ProjectDetails />
+          </>
         )}
 
         {/* Error Display */}

@@ -78,7 +78,7 @@ function NeuralMesh() {
 export default function Header() {
   return (
     <motion.header
-      className="relative py-10 px-6 text-center overflow-hidden"
+      className="relative py-14 px-6 text-center overflow-hidden"
       variants={staggerContainer}
       initial="hidden"
       animate="visible"
@@ -90,7 +90,7 @@ export default function Header() {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent-cyan)] to-transparent opacity-40" />
 
       <motion.div variants={fadeInDown} className="relative z-10">
-        <div className="flex items-center justify-center gap-3 mb-4">
+        <div className="flex items-center justify-center gap-3 mb-5">
           <motion.div
             animate={{
               rotate: [0, 360],
@@ -111,14 +111,14 @@ export default function Header() {
           </motion.div>
         </div>
 
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-3">
-          <span className="gradient-text">Dysarthric Speech Recognition</span>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4 leading-tight">
+          <span className="gradient-text">Automated Speech Recognition for Dysarthria</span>
         </h1>
         <motion.p
           variants={fadeIn}
-          className="text-base md:text-lg text-[var(--color-text-secondary)] max-w-xl mx-auto font-light"
+          className="text-base md:text-lg text-[var(--color-text-primary)] font-medium max-w-2xl mx-auto"
         >
-          AI-powered assistive transcription platform
+          An AI-powered speech recognition system specifically adapted for dysarthric speech using Whisper, LoRA fine-tuning, cloud deployment, and accessibility-focused machine learning.
         </motion.p>
       </motion.div>
 

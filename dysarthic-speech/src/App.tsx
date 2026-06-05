@@ -151,6 +151,14 @@ export default function App() {
   // Handle file selection — kicks off the entire pipeline
   const handleFileSelected = useCallback(
     async (file: File) => {
+      const rateLimit = checkRateLimit(3, 60000); // 3 requests per 60 seconds
+      if (!rateLimit.allowed) {
+        const secondsLeft = Math.ceil(rateLimit.waitTimeRemaining / 1000);
+        setError(`Rate limit exceeded. Please wait ${secondsLeft}s before making another request to protect the free tier APIs.`);
+        setStage('error');
+        return;
+      }
+
       reorderBufferRef.current = { nextAppendIndex: 0, chunkTranscripts: [] };
       setFile(file);
 

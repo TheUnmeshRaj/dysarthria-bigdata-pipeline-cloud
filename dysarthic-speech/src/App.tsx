@@ -19,6 +19,7 @@ import { useFFmpeg } from './hooks/useFFmpeg';
 import { useTranscription } from './hooks/useTranscription';
 import { detectMediaType } from './utils/fileUtils';
 import { fadeInUp, staggerContainer, slideInLeft, slideInRight } from './animations/variants';
+import { correctTranscript } from './services/aiCorrection';
 
 export default function App() {
   const {
@@ -32,6 +33,9 @@ export default function App() {
     setTranscript,
     incrementVisibleWords,
     setError,
+    startCorrection,
+    setCorrectedTranscript,
+    setCorrectionError,
     reset,
   } = useAppState();
 
@@ -50,6 +54,31 @@ export default function App() {
       setExtractionProgress(ffmpegProgress);
     }
   }, [ffmpegProgress, state.stage, setExtractionProgress]);
+
+  const runCorrection = useCallback(async (rawTranscript: string) => {
+    if (!rawTranscript) return;
+    startCorrection();
+    try {
+      const corrected = await correctTranscript(rawTranscript);
+      setCorrectedTranscript(corrected);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Correction failed';
+      setCorrectionError(msg);
+    }
+  }, [startCorrection, setCorrectedTranscript, setCorrectionError]);
+
+  // Trigger AI grammatical correction when transcript is ready
+  useEffect(() => {
+    if (state.transcript && !state.correctedTranscript && !state.isCorrecting && !state.correctionError) {
+      runCorrection(state.transcript);
+    }
+  }, [state.transcript, state.correctedTranscript, state.isCorrecting, state.correctionError, runCorrection]);
+
+  const handleRetryCorrection = useCallback(() => {
+    if (state.transcript) {
+      runCorrection(state.transcript);
+    }
+  }, [state.transcript, runCorrection]);
 
   // Word-by-word reveal timer
   useEffect(() => {
@@ -237,6 +266,10 @@ export default function App() {
                 transcript={state.transcript}
                 words={state.words}
                 processingTime={processingTime}
+                correctedTranscript={state.correctedTranscript}
+                isCorrecting={state.isCorrecting}
+                correctionError={state.correctionError}
+                onRetryCorrection={handleRetryCorrection}
               />
             </motion.section>
           )}

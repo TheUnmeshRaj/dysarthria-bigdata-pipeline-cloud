@@ -33,6 +33,9 @@ export interface AppState {
   error: string | null;
   processingStartTime: number | null;
   processingEndTime: number | null;
+  correctedTranscript: string;
+  isCorrecting: boolean;
+  correctionError: string | null;
 }
 
 const initialState: AppState = {
@@ -49,6 +52,9 @@ const initialState: AppState = {
   error: null,
   processingStartTime: null,
   processingEndTime: null,
+  correctedTranscript: '',
+  isCorrecting: false,
+  correctionError: null,
 };
 
 export function useAppState() {
@@ -67,6 +73,9 @@ export function useAppState() {
       transcript: '',
       words: [],
       visibleWordCount: 0,
+      correctedTranscript: '',
+      isCorrecting: false,
+      correctionError: null,
     }));
   }, []);
 
@@ -127,6 +136,31 @@ export function useAppState() {
     setState((prev) => ({ ...prev, stage: 'error', error }));
   }, []);
 
+  const startCorrection = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      isCorrecting: true,
+      correctionError: null,
+      correctedTranscript: '',
+    }));
+  }, []);
+
+  const setCorrectedTranscript = useCallback((corrected: string) => {
+    setState((prev) => ({
+      ...prev,
+      correctedTranscript: corrected,
+      isCorrecting: false,
+    }));
+  }, []);
+
+  const setCorrectionError = useCallback((error: string) => {
+    setState((prev) => ({
+      ...prev,
+      correctionError: error,
+      isCorrecting: false,
+    }));
+  }, []);
+
   const reset = useCallback(() => {
     setState((prev) => {
       if (prev.audioUrl) URL.revokeObjectURL(prev.audioUrl);
@@ -145,6 +179,9 @@ export function useAppState() {
     setTranscript,
     incrementVisibleWords,
     setError,
+    startCorrection,
+    setCorrectedTranscript,
+    setCorrectionError,
     reset,
   };
 }

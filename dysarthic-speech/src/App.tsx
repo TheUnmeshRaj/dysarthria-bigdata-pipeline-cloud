@@ -20,6 +20,7 @@ import { useTranscription } from './hooks/useTranscription';
 import { detectMediaType } from './utils/fileUtils';
 import { fadeInUp, staggerContainer, slideInLeft, slideInRight } from './animations/variants';
 import { correctTranscript } from './services/aiCorrection';
+import EducationalSection from './components/EducationalSection';
 
 export default function App() {
   const {
@@ -128,6 +129,25 @@ export default function App() {
     [setFile, setStage, extractAudio, setAudioBlob, startProcessing, transcribe, setError],
   );
 
+  const handleLoadSample = useCallback(
+    async (filename: string) => {
+      try {
+        setStage('uploading');
+        const response = await fetch(`/samples/${filename}`);
+        if (!response.ok) {
+          throw new Error(`Failed to load audio sample "${filename}": ${response.statusText}`);
+        }
+        const blob = await response.blob();
+        const file = new File([blob], filename, { type: 'audio/wav' });
+        await handleFileSelected(file);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : 'Failed to load sample';
+        setError(msg);
+      }
+    },
+    [handleFileSelected, setStage, setError],
+  );
+
   const mediaType = state.file ? detectMediaType(state.file) : null;
   const showLeftPanel = state.file !== null && state.stage !== 'idle';
   const showRightPanel = state.stage !== 'idle';
@@ -160,6 +180,14 @@ export default function App() {
             onReset={reset}
           />
         </section>
+
+        {/* Educational Section */}
+        {state.stage === 'idle' && (
+          <EducationalSection
+            onLoadSample={handleLoadSample}
+            isProcessing={state.stage !== 'idle' && state.stage !== 'completed' && state.stage !== 'error'}
+          />
+        )}
 
         {/* Error Display */}
         <AnimatePresence>

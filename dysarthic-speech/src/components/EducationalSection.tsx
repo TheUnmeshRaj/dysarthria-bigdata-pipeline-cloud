@@ -26,9 +26,10 @@ const SAMPLE_LIST: SampleItem[] = [
   {
     id: 'sample3',
     name: 'Dysarthric Speech Sample C',
-    filename: '927.wav',
-    description: 'Spastic articulation with significant vocal strain.',
+    filename: '102.wav',
+    description: 'Monotone speech with short bursts of loudness.',
   },
+
 ];
 
 interface EducationalSectionProps {
@@ -94,11 +95,10 @@ export default function EducationalSection({ onLoadSample, isProcessing }: Educa
                 {/* Play button */}
                 <motion.button
                   onClick={() => handlePlayToggle(sample.filename)}
-                  className={`w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-colors ${
-                    playingId === sample.filename
-                      ? 'bg-[var(--color-accent-cyan)] text-[var(--color-bg-primary)]'
-                      : 'bg-[var(--color-bg-tertiary)] hover:bg-[var(--color-accent-cyan)] text-[var(--color-text-primary)] hover:text-[var(--color-bg-primary)]'
-                  }`}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-colors ${playingId === sample.filename
+                    ? 'bg-[var(--color-accent-cyan)] text-[var(--color-bg-primary)]'
+                    : 'bg-[var(--color-bg-tertiary)] hover:bg-[var(--color-accent-cyan)] text-[var(--color-text-primary)] hover:text-[var(--color-bg-primary)]'
+                    }`}
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.95 }}
                 >

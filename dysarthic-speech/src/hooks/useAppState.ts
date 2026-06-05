@@ -36,6 +36,7 @@ export interface AppState {
   correctedTranscript: string;
   isCorrecting: boolean;
   correctionError: string | null;
+  isTranscriptionDone: boolean;
 }
 
 const initialState: AppState = {
@@ -55,6 +56,7 @@ const initialState: AppState = {
   correctedTranscript: '',
   isCorrecting: false,
   correctionError: null,
+  isTranscriptionDone: false,
 };
 
 export function useAppState() {
@@ -76,6 +78,7 @@ export function useAppState() {
       correctedTranscript: '',
       isCorrecting: false,
       correctionError: null,
+      isTranscriptionDone: false,
     }));
   }, []);
 
@@ -113,23 +116,15 @@ export function useAppState() {
       transcript,
       words,
       stage: 'generating_text',
+      isTranscriptionDone: true,
     }));
   }, []);
 
   const incrementVisibleWords = useCallback(() => {
-    setState((prev) => {
-      const nextCount = prev.visibleWordCount + 1;
-      // If we've revealed all words, transition to completed
-      if (nextCount >= prev.words.length) {
-        return {
-          ...prev,
-          visibleWordCount: nextCount,
-          stage: 'completed',
-          processingEndTime: Date.now(),
-        };
-      }
-      return { ...prev, visibleWordCount: nextCount };
-    });
+    setState((prev) => ({
+      ...prev,
+      visibleWordCount: prev.visibleWordCount + 1,
+    }));
   }, []);
 
   const setError = useCallback((error: string) => {
@@ -161,6 +156,28 @@ export function useAppState() {
     }));
   }, []);
 
+  const appendTranscriptChunk = useCallback((text: string, words: WordWithConfidence[]) => {
+    setState((prev) => {
+      const updatedTranscript = prev.transcript
+        ? `${prev.transcript} ${text}`.trim()
+        : text;
+      return {
+        ...prev,
+        transcript: updatedTranscript,
+        words: [...prev.words, ...words],
+        stage: 'generating_text',
+      };
+    });
+  }, []);
+
+  const setTranscriptionComplete = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      isTranscriptionDone: true,
+      processingEndTime: Date.now(),
+    }));
+  }, []);
+
   const reset = useCallback(() => {
     setState((prev) => {
       if (prev.audioUrl) URL.revokeObjectURL(prev.audioUrl);
@@ -182,6 +199,8 @@ export function useAppState() {
     startCorrection,
     setCorrectedTranscript,
     setCorrectionError,
+    appendTranscriptChunk,
+    setTranscriptionComplete,
     reset,
   };
 }

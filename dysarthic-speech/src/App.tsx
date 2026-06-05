@@ -2,9 +2,9 @@
 // App — Main Dashboard Layout & Orchestration
 // ═══════════════════════════════════════════════════
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AlertCircle, RotateCcw } from 'lucide-react';
+import { AlertCircle, RotateCcw, Sparkles } from 'lucide-react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import UploadZone from './components/UploadZone';
@@ -21,6 +21,7 @@ import { detectMediaType } from './utils/fileUtils';
 import { fadeInUp, staggerContainer, slideInLeft, slideInRight } from './animations/variants';
 import { correctTranscript } from './services/aiCorrection';
 import EducationalSection from './components/EducationalSection';
+import { generateConfidenceScores } from './services/mockApi';
 
 export default function App() {
   const {
@@ -37,15 +38,55 @@ export default function App() {
     startCorrection,
     setCorrectedTranscript,
     setCorrectionError,
+    appendTranscriptChunk,
+    setTranscriptionComplete,
     reset,
   } = useAppState();
 
   const { extractAudio, progress: ffmpegProgress } = useFFmpeg();
   const wordTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  
+  const [showToast, setShowToast] = useState(false);
+  const reorderBufferRef = useRef<{
+    nextAppendIndex: number;
+    chunkTranscripts: (string | null)[];
+  }>({ nextAppendIndex: 0, chunkTranscripts: [] });
+
+  const handleChunkCompleted = useCallback(
+    (text: string, index: number, total: number) => {
+      if (total > 1) {
+        const buffer = reorderBufferRef.current;
+        if (buffer.chunkTranscripts.length === 0) {
+          buffer.chunkTranscripts = Array.from({ length: total }).map(() => null);
+        }
+        buffer.chunkTranscripts[index] = text;
+
+        while (
+          buffer.nextAppendIndex < total &&
+          buffer.chunkTranscripts[buffer.nextAppendIndex] !== null
+        ) {
+          const chunkText = buffer.chunkTranscripts[buffer.nextAppendIndex] as string;
+          if (chunkText) {
+            const words = generateConfidenceScores(chunkText);
+            appendTranscriptChunk(chunkText, words);
+          }
+          buffer.nextAppendIndex++;
+        }
+
+        if (buffer.nextAppendIndex === total) {
+          setTranscriptionComplete();
+          setShowToast(true);
+          setTimeout(() => setShowToast(false), 4500);
+        }
+      }
+    },
+    [appendTranscriptChunk, setTranscriptionComplete]
+  );
 
   const { transcribe } = useTranscription({
     onStageChange: setProcessingStage,
     onTranscriptReady: setTranscript,
+    onChunkCompleted: handleChunkCompleted,
     onError: setError,
   });
 
@@ -70,16 +111,28 @@ export default function App() {
 
   // Trigger AI grammatical correction when transcript is ready
   useEffect(() => {
-    if (state.transcript && !state.correctedTranscript && !state.isCorrecting && !state.correctionError) {
+    if (state.transcript && !state.correctedTranscript && !state.isCorrecting && !state.correctionError && state.isTranscriptionDone) {
       runCorrection(state.transcript);
     }
-  }, [state.transcript, state.correctedTranscript, state.isCorrecting, state.correctionError, runCorrection]);
+  }, [state.transcript, state.correctedTranscript, state.isCorrecting, state.correctionError, state.isTranscriptionDone, runCorrection]);
 
   const handleRetryCorrection = useCallback(() => {
     if (state.transcript) {
       runCorrection(state.transcript);
     }
   }, [state.transcript, runCorrection]);
+
+  // Transition stage to completed when all words are revealed and transcription is complete
+  useEffect(() => {
+    if (
+      state.stage === 'generating_text' &&
+      state.isTranscriptionDone &&
+      state.visibleWordCount >= state.words.length &&
+      state.words.length > 0
+    ) {
+      setStage('completed');
+    }
+  }, [state.stage, state.isTranscriptionDone, state.visibleWordCount, state.words.length, setStage]);
 
   // Word-by-word reveal timer
   useEffect(() => {
@@ -97,6 +150,7 @@ export default function App() {
   // Handle file selection — kicks off the entire pipeline
   const handleFileSelected = useCallback(
     async (file: File) => {
+      reorderBufferRef.current = { nextAppendIndex: 0, chunkTranscripts: [] };
       setFile(file);
 
       const mediaType = detectMediaType(file);
@@ -300,6 +354,32 @@ export default function App() {
                 onRetryCorrection={handleRetryCorrection}
               />
             </motion.section>
+          )}
+        </AnimatePresence>
+
+        {/* Toast Notification */}
+        <AnimatePresence>
+          {showToast && (
+            <motion.div
+              initial={{ opacity: 0, y: 50, x: -20 }}
+              animate={{ opacity: 1, y: 0, x: 0 }}
+              exit={{ opacity: 0, y: 20, x: -20 }}
+              className="fixed bottom-6 left-6 z-50 glass-card p-4 shadow-[0_0_30px_rgba(124,58,237,0.2)] flex items-center gap-3 border border-purple-500/30 bg-purple-950/80 backdrop-blur-md max-w-sm"
+            >
+              <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                <Sparkles className="w-4 h-4 animate-pulse-glow" />
+              </div>
+              <div className="text-left">
+                <p className="text-xs font-semibold text-[var(--color-text-primary)]">Processing Complete</p>
+                <p className="text-[10px] text-[var(--color-text-secondary)]">Entire audio file has been transcribed.</p>
+              </div>
+              <button
+                onClick={() => setShowToast(false)}
+                className="ml-auto text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)] cursor-pointer text-[10px] uppercase font-bold tracking-wider hover:bg-white/5 px-2 py-1 rounded transition-colors"
+              >
+                Dismiss
+              </button>
+            </motion.div>
           )}
         </AnimatePresence>
 

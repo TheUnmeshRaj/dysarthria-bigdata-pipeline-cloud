@@ -28,9 +28,24 @@ export async function correctTranscript(transcript: string): Promise<string> {
       model: 'deepseek-ai/DeepSeek-V4-Flash',
       messages: [
         {
-          role: 'user',
-          content: `Correct grammatical, spelling, and semantic errors in the following sentence. Preserve the original meaning. If the sentence is already correct, return it unchanged. Output only the corrected sentence. ${transcript}`,
-        },
+          role: "user",
+          content: `You are correcting noisy speech-to-text output.
+
+Your task is to reconstruct the most likely sentence the speaker intended to say.
+
+Rules:
+- Fix grammar, spelling, punctuation, and capitalization.
+- Correct misheard words and phrases.
+- Replace words that are semantically implausible with more likely alternatives based on context.
+- Prefer natural, fluent English over literal transcription.
+- If several corrections are possible, choose the most common real-world phrasing.
+- Preserve the original meaning.
+
+Return only the corrected sentence.
+
+Transcript:
+${transcript}`
+        }
       ],
     }),
   });

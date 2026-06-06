@@ -49,10 +49,37 @@ export default function App() {
   const wordTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   
   const [showToast, setShowToast] = useState(false);
+  const [visitCount, setVisitCount] = useState<number | null>(null);
   const reorderBufferRef = useRef<{
     nextAppendIndex: number;
     chunkTranscripts: (string | null)[];
   }>({ nextAppendIndex: 0, chunkTranscripts: [] });
+
+  useEffect(() => {
+    const fetchVisitCount = async () => {
+      try {
+        const hasVisited = sessionStorage.getItem('visited_dysarthria_asr');
+        const url = hasVisited
+          ? 'https://api.counterapi.dev/v1/dysarthria_speech_recognition/visits/'
+          : 'https://api.counterapi.dev/v1/dysarthria_speech_recognition/visits/up';
+
+        const res = await fetch(url);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && typeof data.count === 'number') {
+            setVisitCount(data.count);
+            if (!hasVisited) {
+              sessionStorage.setItem('visited_dysarthria_asr', 'true');
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch visit count:', err);
+      }
+    };
+
+    fetchVisitCount();
+  }, []);
 
   const handleChunkCompleted = useCallback(
     (text: string, index: number, total: number) => {
@@ -397,7 +424,7 @@ export default function App() {
         </AnimatePresence>
 
         {/* Footer */}
-        <Footer />
+        <Footer visitCount={visitCount} />
       </div>
     </div>
   );

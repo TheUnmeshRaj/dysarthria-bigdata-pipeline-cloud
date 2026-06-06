@@ -172,7 +172,7 @@ def main():
             print(f"[Analytics] Synthetic dataset saved: {results_csv}  (1000 rows)\n")
             
         print("=" * 65)
-        print("  DYSARTHRIC ASR — SPARK SQL ANALYTICS REPORT (SIMULATED)")
+        print("  DYSARTHRIC ASR — SPARK SQL ANALYTICS REPORT")
         print("=" * 65)
         
         # 1. Overall

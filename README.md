@@ -1,9 +1,7 @@
 # Automated Speech Recognition for Dysarthria
 ### A Big Data Pipeline for Accessible Speech Technology
 
-> **RV College of Engineering® · CS367P Interdisciplinary Project · 2025–26**  
-> Unmesh Raj · Vijesh · Sanjay C M · Seshasai Chillara  
-> Guide: Dr. Shanta Rangaswamy
+> **RV College of Engineering® · 
 
 ---
 

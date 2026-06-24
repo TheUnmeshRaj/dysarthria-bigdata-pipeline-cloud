@@ -22,6 +22,7 @@ import { fadeInUp, staggerContainer, slideInLeft, slideInRight } from './animati
 import { correctTranscript } from './services/aiCorrection';
 import EducationalSection from './components/EducationalSection';
 import ProjectDetails from './components/ProjectDetails';
+import KnowledgeBasePage from './components/KnowledgeBasePage';
 import { generateConfidenceScores } from './services/mockApi';
 import { checkRateLimit } from './utils/rateLimiter';
 
@@ -48,6 +49,7 @@ export default function App() {
   const { extractAudio, progress: ffmpegProgress } = useFFmpeg();
   const wordTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   
+  const [activePage, setActivePage] = useState<'transcribe' | 'knowledge-base'>('transcribe');
   const [showToast, setShowToast] = useState(false);
   const [visitCount, setVisitCount] = useState<number | null>(null);
   const reorderBufferRef = useRef<{
@@ -260,17 +262,21 @@ export default function App() {
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
-        <Header />
+        <Header activePage={activePage} setActivePage={setActivePage} />
 
-        {/* Upload Zone */}
-        <section className="py-6">
-          <UploadZone
-            onFileSelected={handleFileSelected}
-            currentFile={state.file}
-            stage={state.stage}
-            onReset={reset}
-          />
-        </section>
+        {activePage === 'knowledge-base' ? (
+          <KnowledgeBasePage />
+        ) : (
+          <>
+            {/* Upload Zone */}
+            <section className="py-6">
+              <UploadZone
+                onFileSelected={handleFileSelected}
+                currentFile={state.file}
+                stage={state.stage}
+                onReset={reset}
+              />
+            </section>
 
         {/* Educational Section */}
         {state.stage === 'idle' && (
@@ -422,6 +428,8 @@ export default function App() {
             </motion.div>
           )}
         </AnimatePresence>
+        </>
+        )}
 
         {/* Footer */}
         <Footer visitCount={visitCount} />

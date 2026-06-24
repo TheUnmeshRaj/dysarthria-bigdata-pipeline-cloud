@@ -2,13 +2,14 @@
 // Upload Zone — Drag & Drop File Upload
 // ═══════════════════════════════════════════════════
 
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, FileAudio, FileVideo, X, Sparkles } from 'lucide-react';
+import { Upload, FileAudio, FileVideo, X, Sparkles, User } from 'lucide-react';
 import { ACCEPTED_FILE_TYPES, formatFileSize, detectMediaType } from '../utils/fileUtils';
 import { fadeInScale } from '../animations/variants';
 import type { AppStage } from '../hooks/useAppState';
+import { getUsers, getActiveUsername, setActiveUsername } from '../services/kbApi';
 
 interface UploadZoneProps {
   onFileSelected: (file: File) => void;
@@ -38,7 +39,27 @@ export default function UploadZone({ onFileSelected, currentFile, stage, onReset
   const mediaType = currentFile ? detectMediaType(currentFile) : null;
   const isActive = stage !== 'idle' && stage !== 'completed' && stage !== 'error';
 
+  const [users, setUsers] = useState<string[]>([]);
+  const [activeUser, setActiveUserLocal] = useState<string>(getActiveUsername() || '');
+
+  useEffect(() => {
+    getUsers()
+      .then((data) => setUsers(data))
+      .catch((err) => console.error('Failed to load users:', err));
+  }, []);
+
+  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    setActiveUserLocal(val);
+    if (val) {
+      setActiveUsername(val);
+    } else {
+      localStorage.removeItem('dysarthria_kb_username');
+    }
+  };
+
   // Separate dropzone props to avoid Framer Motion conflicts
+
   const { onAnimationStart: _, onDragStart: _d, onDrag: _dg, onDragEnd: _de, ...rootProps } = getRootProps() as ReturnType<typeof getRootProps> & {
     onAnimationStart?: unknown;
     onDragStart?: unknown;
@@ -51,21 +72,47 @@ export default function UploadZone({ onFileSelected, currentFile, stage, onReset
       <AnimatePresence mode="wait">
         {!currentFile || stage === 'idle' ? (
           <motion.div
-            key="dropzone"
-            {...rootProps}
-            className={`upload-zone relative flex flex-col items-center justify-center p-10 md:p-14 transition-all ${
-              isDragActive ? 'drag-active' : ''
-            } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{
-              opacity: 1,
-              scale: isDragActive ? 1.02 : 1,
-              borderColor: isDragActive ? 'rgba(0,212,255,0.6)' : 'rgba(0,212,255,0.2)',
-            }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            whileHover={!isDisabled ? { scale: 1.01 } : undefined}
+            key="upload-container"
+            className="flex flex-col gap-4 w-full"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
           >
+            {/* User Selector */}
+            {users.length > 0 && (
+              <div className="flex items-center justify-center gap-3 glass-card p-3 mx-auto w-full max-w-sm rounded-xl" onClick={(e) => e.stopPropagation()}>
+                <User className="w-4 h-4 text-[var(--color-accent-cyan)]" />
+                <select
+                  value={activeUser}
+                  onChange={handleUserChange}
+                  className="bg-transparent text-sm font-semibold text-[var(--color-text-primary)] outline-none cursor-pointer flex-1"
+                >
+                  <option value="" className="bg-[var(--color-bg-primary)] text-[var(--color-text-secondary)]">No active speaker (Default STT)</option>
+                  {users.map((u) => (
+                    <option key={u} value={u} className="bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]">
+                      Speaker: @{u}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <motion.div
+              key="dropzone"
+              {...rootProps}
+              className={`upload-zone relative flex flex-col items-center justify-center p-10 md:p-14 transition-all ${
+                isDragActive ? 'drag-active' : ''
+              } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{
+                opacity: 1,
+                scale: isDragActive ? 1.02 : 1,
+                borderColor: isDragActive ? 'rgba(0,212,255,0.6)' : 'rgba(0,212,255,0.2)',
+              }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              whileHover={!isDisabled ? { scale: 1.01 } : undefined}
+            >
             <input {...getInputProps()} id="file-upload-input" />
 
             <motion.div
@@ -104,6 +151,7 @@ export default function UploadZone({ onFileSelected, currentFile, stage, onReset
                 exit={{ opacity: 0 }}
               />
             )}
+            </motion.div>
           </motion.div>
         ) : (
           <motion.div

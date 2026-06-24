@@ -1,0 +1,398 @@
+{
+  "speaker_id": "bcf34855c148",
+  "name": "Vijesh",
+  "domain": "tech",
+  "topics": [
+    "cloud infrastructure",
+    "Kubernetes",
+    "CI/CD",
+    "DevOps",
+    "microservices",
+    "speech recognition",
+    "monitoring"
+  ],
+  "vocabulary": [
+    {
+      "term": "Kubernetes",
+      "category": "domain_term",
+      "definition": "Container orchestration platform",
+      "aliases": [
+        "cube netties",
+        "cube net ease",
+        "kubernets"
+      ],
+      "added_at": "2026-06-24T15:38:39.967786"
+    },
+    {
+      "term": "DICE-Arctic",
+      "category": "proper_noun",
+      "definition": "Speech recognition model the speaker works with",
+      "aliases": [
+        "die sarcastic",
+        "dice arctic",
+        "die sarctic"
+      ],
+      "added_at": "2026-06-24T15:38:39.967802"
+    },
+    {
+      "term": "CI/CD",
+      "category": "acronym",
+      "definition": "Continuous Integration / Continuous Deployment",
+      "aliases": [
+        "sea eye sea dee",
+        "see eye sea dee"
+      ],
+      "added_at": "2026-06-24T15:38:39.967805"
+    },
+    {
+      "term": "PostgreSQL",
+      "category": "domain_term",
+      "definition": "Relational database management system",
+      "aliases": [
+        "post gress",
+        "post gres",
+        "postgres"
+      ],
+      "added_at": "2026-06-24T15:38:39.967806"
+    },
+    {
+      "term": "Elasticsearch",
+      "category": "domain_term",
+      "definition": "Distributed search and analytics engine",
+      "aliases": [
+        "elastic search"
+      ],
+      "added_at": "2026-06-24T15:38:39.967808"
+    },
+    {
+      "term": "Grafana",
+      "category": "domain_term",
+      "definition": "Monitoring and observability dashboard tool",
+      "aliases": [
+        "graph ana",
+        "graphana"
+      ],
+      "added_at": "2026-06-24T15:38:39.967810"
+    },
+    {
+      "term": "Docker",
+      "category": "domain_term",
+      "definition": "Container platform for building and running applications",
+      "aliases": [
+        "doc her",
+        "docker"
+      ],
+      "added_at": "2026-06-24T15:38:39.967813"
+    },
+    {
+      "term": "Jira",
+      "category": "proper_noun",
+      "definition": "Atlassian's project management and issue tracking tool",
+      "aliases": [
+        "jeer ah",
+        "jeera"
+      ],
+      "added_at": "2026-06-24T15:38:39.967818"
+    },
+    {
+      "term": "Redis",
+      "category": "domain_term",
+      "definition": "In-memory key-value data store used for caching",
+      "aliases": [
+        "red is",
+        "reddis"
+      ],
+      "added_at": "2026-06-24T15:38:39.967821"
+    },
+    {
+      "term": "Terraform",
+      "category": "domain_term",
+      "definition": "Infrastructure-as-code provisioning tool by HashiCorp",
+      "aliases": [
+        "terraform"
+      ],
+      "added_at": "2026-06-24T15:38:39.967823"
+    },
+    {
+      "term": "Prometheus",
+      "category": "domain_term",
+      "definition": "Open-source monitoring and alerting toolkit",
+      "aliases": [
+        "prometheus"
+      ],
+      "added_at": "2026-06-24T15:38:39.967824"
+    },
+    {
+      "term": "Jenkins",
+      "category": "domain_term",
+      "definition": "Open-source CI/CD automation server",
+      "aliases": [
+        "jenkins"
+      ],
+      "added_at": "2026-06-24T15:38:39.967827"
+    },
+    {
+      "term": "Dr. Patel",
+      "category": "proper_noun",
+      "definition": "Speaker's colleague",
+      "aliases": [
+        "doctor patel"
+      ],
+      "added_at": "2026-06-24T15:38:39.967829"
+    },
+    {
+      "term": "microservice",
+      "category": "domain_term",
+      "definition": "Small, independently deployable service in a distributed architecture",
+      "aliases": [
+        "micro surface",
+        "micro service"
+      ],
+      "added_at": "2026-06-24T15:38:39.967830"
+    }
+  ],
+  "corrections": [
+    {
+      "id": "ecf37f66",
+      "stt_output": "cube netties",
+      "intended": "Kubernetes",
+      "occurrences": 2,
+      "confidence": 1.0,
+      "source": "llm_suggested",
+      "context_hint": "The STT breaks 'Kubernetes' into syllables that sound like 'cube netties' — a consistent phonetic confusion for this speaker's accent",
+      "created_at": "2026-06-24T15:38:39.967196",
+      "last_seen": "2026-06-24T15:38:39.967589"
+    },
+    {
+      "id": "022621e4",
+      "stt_output": "die sarcastic",
+      "intended": "DICE-Arctic",
+      "occurrences": 2,
+      "confidence": 1.0,
+      "source": "llm_suggested",
+      "context_hint": "Product name 'DICE-Arctic' is not in the STT vocabulary; the model guesses phonetically similar common words",
+      "created_at": "2026-06-24T15:38:39.967605",
+      "last_seen": "2026-06-24T15:38:39.967606"
+    },
+    {
+      "id": "e646e72a",
+      "stt_output": "micro surface",
+      "intended": "microservice",
+      "occurrences": 2,
+      "confidence": 0.7999999999999999,
+      "source": "llm_suggested",
+      "context_hint": "'Microservice' is split into 'micro' + closest-sounding word 'surface'",
+      "created_at": "2026-06-24T15:38:39.967614",
+      "last_seen": "2026-06-24T15:38:39.967615"
+    },
+    {
+      "id": "b9730808",
+      "stt_output": "sea eye sea dee",
+      "intended": "CI/CD",
+      "occurrences": 2,
+      "confidence": 0.7999999999999999,
+      "source": "llm_suggested",
+      "context_hint": "STT spells out the acronym letter-by-letter instead of recognizing 'CI/CD' as a unit",
+      "created_at": "2026-06-24T15:38:39.967620",
+      "last_seen": "2026-06-24T15:38:39.967620"
+    },
+    {
+      "id": "f768b895",
+      "stt_output": "see eye sea dee",
+      "intended": "CI/CD",
+      "occurrences": 2,
+      "confidence": 0.7999999999999999,
+      "source": "llm_suggested",
+      "context_hint": "Alternate phonetic rendering of the CI/CD acronym",
+      "created_at": "2026-06-24T15:38:39.967624",
+      "last_seen": "2026-06-24T15:38:39.967625"
+    },
+    {
+      "id": "977d98ea",
+      "stt_output": "post gress",
+      "intended": "PostgreSQL",
+      "occurrences": 2,
+      "confidence": 0.7999999999999999,
+      "source": "llm_suggested",
+      "context_hint": "STT doesn't know 'PostgreSQL'; captures partial phonetics as 'post gress'",
+      "created_at": "2026-06-24T15:38:39.967628",
+      "last_seen": "2026-06-24T15:38:39.967629"
+    },
+    {
+      "id": "6f943103",
+      "stt_output": "elastic search",
+      "intended": "Elasticsearch",
+      "occurrences": 2,
+      "confidence": 0.7999999999999999,
+      "source": "llm_suggested",
+      "context_hint": "STT splits the compound word 'Elasticsearch' into two separate words",
+      "created_at": "2026-06-24T15:38:39.967633",
+      "last_seen": "2026-06-24T15:38:39.967633"
+    },
+    {
+      "id": "43e5c99d",
+      "stt_output": "graph ana",
+      "intended": "Grafana",
+      "occurrences": 2,
+      "confidence": 0.7999999999999999,
+      "source": "llm_suggested",
+      "context_hint": "Monitoring tool 'Grafana' misheard as 'graph ana'",
+      "created_at": "2026-06-24T15:38:39.967636",
+      "last_seen": "2026-06-24T15:38:39.967637"
+    },
+    {
+      "id": "97b95b3f",
+      "stt_output": "doc her",
+      "intended": "Docker",
+      "occurrences": 2,
+      "confidence": 0.6,
+      "source": "llm_suggested",
+      "context_hint": "The speaker's pronunciation of 'Docker' is interpreted as 'doc her'",
+      "created_at": "2026-06-24T15:38:39.967640",
+      "last_seen": "2026-06-24T15:38:39.967641"
+    },
+    {
+      "id": "b6f65d0f",
+      "stt_output": "jeer ah",
+      "intended": "Jira",
+      "occurrences": 2,
+      "confidence": 0.6,
+      "source": "llm_suggested",
+      "context_hint": "Project management tool 'Jira' not in STT vocabulary",
+      "created_at": "2026-06-24T15:38:39.967644",
+      "last_seen": "2026-06-24T15:38:39.967645"
+    },
+    {
+      "id": "147ad399",
+      "stt_output": "red is",
+      "intended": "Redis",
+      "occurrences": 2,
+      "confidence": 0.6,
+      "source": "llm_suggested",
+      "context_hint": "In-memory database 'Redis' broken into common words 'red is'",
+      "created_at": "2026-06-24T15:38:39.967648",
+      "last_seen": "2026-06-24T15:38:39.967649"
+    },
+    {
+      "id": "f7ef2e64",
+      "stt_output": "in for structure",
+      "intended": "infrastructure",
+      "occurrences": 2,
+      "confidence": 0.6,
+      "source": "llm_suggested",
+      "context_hint": "Long word 'infrastructure' broken into smaller phonetic chunks",
+      "created_at": "2026-06-24T15:38:39.967652",
+      "last_seen": "2026-06-24T15:38:39.967653"
+    },
+    {
+      "id": "d12f0349",
+      "stt_output": "lawn balancer",
+      "intended": "load balancer",
+      "occurrences": 2,
+      "confidence": 0.6,
+      "source": "llm_suggested",
+      "context_hint": "Speaker's accent causes 'load' to sound like 'lawn' to the STT model",
+      "created_at": "2026-06-24T15:38:39.967656",
+      "last_seen": "2026-06-24T15:38:39.967657"
+    },
+    {
+      "id": "3ef83daf",
+      "stt_output": "spring",
+      "intended": "sprint",
+      "occurrences": 2,
+      "confidence": 0.6,
+      "source": "llm_suggested",
+      "context_hint": "'Sprint' and 'spring' are phonetically very close; STT picks the more common word",
+      "created_at": "2026-06-24T15:38:39.967660",
+      "last_seen": "2026-06-24T15:38:39.967660"
+    },
+    {
+      "id": "978e36e4",
+      "stt_output": "notes",
+      "intended": "nodes",
+      "occurrences": 2,
+      "confidence": 0.6,
+      "source": "llm_suggested",
+      "context_hint": "In the context of clusters, 'nodes' is misheard as the more common word 'notes'",
+      "created_at": "2026-06-24T15:38:39.967663",
+      "last_seen": "2026-06-24T15:38:39.967664"
+    },
+    {
+      "id": "fb50a5c5",
+      "stt_output": "burn down",
+      "intended": "burndown",
+      "occurrences": 2,
+      "confidence": 0.6,
+      "source": "llm_suggested",
+      "context_hint": "Compound word 'burndown' split into two words",
+      "created_at": "2026-06-24T15:38:39.967667",
+      "last_seen": "2026-06-24T15:38:39.967668"
+    },
+    {
+      "id": "0752ad15",
+      "stt_output": "miss configured",
+      "intended": "misconfigured",
+      "occurrences": 2,
+      "confidence": 0.6,
+      "source": "llm_suggested",
+      "context_hint": "Prefix 'mis-' separated from 'configured'",
+      "created_at": "2026-06-24T15:38:39.967671",
+      "last_seen": "2026-06-24T15:38:39.967671"
+    },
+    {
+      "id": "5417474b",
+      "stt_output": "api gate way",
+      "intended": "API gateway",
+      "occurrences": 2,
+      "confidence": 0.6,
+      "source": "llm_suggested",
+      "context_hint": "'API gateway' split into three separate tokens",
+      "created_at": "2026-06-24T15:38:39.967675",
+      "last_seen": "2026-06-24T15:38:39.967675"
+    },
+    {
+      "id": "0fe0c0c4",
+      "stt_output": "data base",
+      "intended": "database",
+      "occurrences": 2,
+      "confidence": 0.6,
+      "source": "llm_suggested",
+      "context_hint": "Compound word 'database' split into two words",
+      "created_at": "2026-06-24T15:38:39.967679",
+      "last_seen": "2026-06-24T15:38:39.967680"
+    },
+    {
+      "id": "11514535",
+      "stt_output": "doctor patel",
+      "intended": "Dr. Patel",
+      "occurrences": 2,
+      "confidence": 0.6,
+      "source": "llm_suggested",
+      "context_hint": "Title abbreviation 'Dr.' expanded to full word 'doctor'",
+      "created_at": "2026-06-24T15:38:39.967683",
+      "last_seen": "2026-06-24T15:38:39.967684"
+    }
+  ],
+  "style": {
+    "formality": "professional",
+    "remove_fillers": true,
+    "filler_words": [
+      "so",
+      "I think",
+      "let me"
+    ],
+    "languages": [
+      "en"
+    ],
+    "common_phrases": [
+      "make sure",
+      "we need to",
+      "the main issue",
+      "I think we should"
+    ],
+    "preferred_spelling": "en-US",
+    "notes": "Speaker uses a conversational but professional tone. Frequently discusses cloud infrastructure and DevOps tooling. Uses technical terminology heavily. Tends to start sentences with 'So', 'I think', 'Let me'."
+  },
+  "created_at": "2026-06-24T15:38:39.967870",
+  "updated_at": "2026-06-24T15:38:39.967874"
+}

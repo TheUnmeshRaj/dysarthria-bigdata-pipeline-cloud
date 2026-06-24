@@ -1,9 +1,5 @@
-// ═══════════════════════════════════════════════════
-// Header Component — Animated Hero Banner
-// ═══════════════════════════════════════════════════
-
 import { motion } from 'framer-motion';
-import { Brain, Activity } from 'lucide-react';
+import { Brain, Activity, Mic, BookOpen } from 'lucide-react';
 import { fadeInDown, staggerContainer, fadeIn } from '../animations/variants';
 
 // Floating particles for the header background
@@ -75,10 +71,15 @@ function NeuralMesh() {
   );
 }
 
-export default function Header() {
+interface HeaderProps {
+  activePage: 'transcribe' | 'knowledge-base';
+  setActivePage: (page: 'transcribe' | 'knowledge-base') => void;
+}
+
+export default function Header({ activePage, setActivePage }: HeaderProps) {
   return (
     <motion.header
-      className="relative py-14 px-6 text-center overflow-hidden"
+      className="relative pt-14 pb-0 text-center overflow-hidden"
       variants={staggerContainer}
       initial="hidden"
       animate="visible"
@@ -89,7 +90,7 @@ export default function Header() {
       {/* Gradient line at top */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent-cyan)] to-transparent opacity-40" />
 
-      <motion.div variants={fadeInDown} className="relative z-10">
+      <motion.div variants={fadeInDown} className="relative z-10 px-6 pb-10">
         <div className="flex items-center justify-center gap-3 mb-5">
           <motion.div
             animate={{
@@ -121,6 +122,32 @@ export default function Header() {
           An AI-powered speech recognition system specifically adapted for dysarthric speech using Whisper, LoRA fine-tuning, cloud deployment, and accessibility-focused machine learning.
         </motion.p>
       </motion.div>
+
+      {/* Navigation Tabs */}
+      <div className="relative z-10 flex justify-center gap-2 pb-0 px-6">
+        <button
+          onClick={() => setActivePage('transcribe')}
+          className={`px-5 py-3 text-sm font-semibold tracking-wide border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
+            activePage === 'transcribe'
+              ? 'border-cyan-400 text-cyan-400 bg-cyan-950/20 rounded-t-lg'
+              : 'border-transparent text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)] hover:bg-slate-800/20 rounded-t-lg'
+          }`}
+        >
+          <Mic className="w-4 h-4" />
+          Transcribe
+        </button>
+        <button
+          onClick={() => setActivePage('knowledge-base')}
+          className={`px-5 py-3 text-sm font-semibold tracking-wide border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
+            activePage === 'knowledge-base'
+              ? 'border-purple-400 text-purple-400 bg-purple-950/20 rounded-t-lg'
+              : 'border-transparent text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)] hover:bg-slate-800/20 rounded-t-lg'
+          }`}
+        >
+          <BookOpen className="w-4 h-4" />
+          Knowledge Base
+        </button>
+      </div>
 
       {/* Gradient line at bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent-purple)] to-transparent opacity-20" />

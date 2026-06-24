@@ -1,0 +1,257 @@
+{
+  "speaker_id": "82ff32ea6f25",
+  "name": "jivesh",
+  "domain": "general",
+  "topics": [
+    "daily life",
+    "personal experiences",
+    "casual conversations"
+  ],
+  "vocabulary": [
+    {
+      "term": "Youtuber",
+      "category": "general",
+      "definition": "A person who creates content on the video-sharing platform YouTube.",
+      "aliases": [
+        "youtuber",
+        "youtuber"
+      ],
+      "added_at": "2026-06-24T16:45:35.968976"
+    },
+    {
+      "term": "envelope",
+      "category": "general",
+      "definition": "A flat, usually rectangular or square paper container for a letter or document.",
+      "aliases": [
+        "um",
+        "envelope"
+      ],
+      "added_at": "2026-06-24T16:45:35.968988"
+    },
+    {
+      "term": "park",
+      "category": "general",
+      "definition": "A large public green area in a town, used for recreation.",
+      "aliases": [
+        "pock",
+        "park"
+      ],
+      "added_at": "2026-06-24T16:45:35.968995"
+    },
+    {
+      "term": "casual",
+      "category": "general",
+      "definition": "Informal or relaxed in style or manner.",
+      "aliases": [
+        "kazzual",
+        "casuals"
+      ],
+      "added_at": "2026-06-24T16:45:35.969000"
+    },
+    {
+      "term": "hobby",
+      "category": "general",
+      "definition": "An activity done regularly in one's leisure time for pleasure.",
+      "aliases": [
+        "hop",
+        "hobbies"
+      ],
+      "added_at": "2026-06-24T16:45:35.969005"
+    },
+    {
+      "term": "baseman",
+      "category": "general",
+      "definition": "A player in baseball who occupies a base.",
+      "aliases": [
+        "basement",
+        "base men"
+      ],
+      "added_at": "2026-06-24T16:45:35.969009"
+    }
+  ],
+  "corrections": [
+    {
+      "id": "56efd75c",
+      "stt_output": "the stamp stuck to the wet um",
+      "intended": "The stamp stuck to the wet envelope.",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT misinterprets 'envelope' as 'um' due to phonetic similarity and potential background noise.",
+      "created_at": "2026-06-24T16:45:35.968639",
+      "last_seen": "2026-06-24T16:45:35.968672"
+    },
+    {
+      "id": "55b1e677",
+      "stt_output": "the crooked mayors failed to fool them out",
+      "intended": "The crooked maze failed to fool the mouse.",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT confuses 'maze' with 'mayors' and 'mouse' with 'them out' due to similar sounds.",
+      "created_at": "2026-06-24T16:45:35.968739",
+      "last_seen": "2026-06-24T16:45:35.968741"
+    },
+    {
+      "id": "47487ac3",
+      "stt_output": "the bit of the tear up whole over for a new white dress",
+      "intended": "The baby threw up all over her new white dress.",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT mishears 'baby' as 'bit' and 'threw up' as 'tear up' due to rapid speech and phonetic overlap.",
+      "created_at": "2026-06-24T16:45:35.968760",
+      "last_seen": "2026-06-24T16:45:35.968761"
+    },
+    {
+      "id": "c8c4e1f2",
+      "stt_output": "not much to do in south carolina other than a geese",
+      "intended": "There is not much to do in South Carolina other than sit on a beach.",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT misinterprets the phrase due to unclear articulation and background noise.",
+      "created_at": "2026-06-24T16:45:35.968775",
+      "last_seen": "2026-06-24T16:45:35.968776"
+    },
+    {
+      "id": "a9677790",
+      "stt_output": "the pock has a soccer field",
+      "intended": "The park has a soccer field.",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT mishears 'park' as 'pock' due to phonetic similarity.",
+      "created_at": "2026-06-24T16:45:35.968789",
+      "last_seen": "2026-06-24T16:45:35.968791"
+    },
+    {
+      "id": "aa7ced40",
+      "stt_output": "the first basement caught the fly ball",
+      "intended": "The first baseman caught the fly ball.",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "Mishearing of 'baseman' as 'basement' due to similar sounds.",
+      "created_at": "2026-06-24T16:45:35.968877",
+      "last_seen": "2026-06-24T16:45:35.968878"
+    },
+    {
+      "id": "ff470154",
+      "stt_output": "he decided to count all the sand on the beach as a hop",
+      "intended": "He decided to count all the sand on the beach as a hobby.",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "Phonetic confusion between 'hop' and 'hobby' likely due to speech rhythm.",
+      "created_at": "2026-06-24T16:45:35.968894",
+      "last_seen": "2026-06-24T16:45:35.968895"
+    },
+    {
+      "id": "af03c87a",
+      "stt_output": "she had to taste a butter so much that it made her gap",
+      "intended": "She hated the taste of butter so much that it made her gag.",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "Misinterpretation of 'gag' as 'gap' due to similar phonetic endings.",
+      "created_at": "2026-06-24T16:45:35.968907",
+      "last_seen": "2026-06-24T16:45:35.968908"
+    },
+    {
+      "id": "1bf06518",
+      "stt_output": "the wake behind the boat told of the past while the open sea foretold life in the unknown",
+      "intended": "The wake behind the boat told of the past while the open sea for told life in the unknown.",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "Misinterpretation of 'foretold' as 'for told' due to speech pacing.",
+      "created_at": "2026-06-24T16:45:35.968938",
+      "last_seen": "2026-06-24T16:45:35.968939"
+    },
+    {
+      "id": "c8dee814",
+      "stt_output": "the kids were smiling from ear to ear",
+      "intended": "The kids were smiling from ear to ear.",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "This output is correct, indicating that the STT performs well in this instance.",
+      "created_at": "2026-06-24T16:45:35.968803",
+      "last_seen": "2026-06-24T16:45:35.968804"
+    },
+    {
+      "id": "44f5aa4c",
+      "stt_output": "quick out there they can we could stop racism by pointing out that they made",
+      "intended": "People are really out there thinking we can stop fascism by pointing out that they made",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT mishears 'people' as 'quick out there' due to rapid speech and phonetic confusion.",
+      "created_at": "2026-06-24T16:45:35.968816",
+      "last_seen": "2026-06-24T16:45:35.968817"
+    },
+    {
+      "id": "0dfc1451",
+      "stt_output": "dark man now smash",
+      "intended": "He didn't mean to smash the window.",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "Phonetic confusion likely due to unclear articulation or rapid speech.",
+      "created_at": "2026-06-24T16:45:35.968836",
+      "last_seen": "2026-06-24T16:45:35.968837"
+    },
+    {
+      "id": "b13757a2",
+      "stt_output": "it amounts to finish the nail",
+      "intended": "It took him a month to finish the meal.",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "Misinterpretation of similar-sounding phrases, possibly due to speech speed.",
+      "created_at": "2026-06-24T16:45:35.968849",
+      "last_seen": "2026-06-24T16:45:35.968850"
+    },
+    {
+      "id": "0cfdd208",
+      "stt_output": "the army destroyed the sip",
+      "intended": "The enemy destroyed the city.",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "Phonetic similarity between 'sip' and 'city' may have caused confusion.",
+      "created_at": "2026-06-24T16:45:35.968866",
+      "last_seen": "2026-06-24T16:45:35.968867"
+    },
+    {
+      "id": "bef1cf7c",
+      "stt_output": "a five t helps to pass the evening",
+      "intended": "A pot of tea helps to pass the evening.",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "Phonetic confusion likely due to unclear pronunciation of 'pot of tea'.",
+      "created_at": "2026-06-24T16:45:35.968917",
+      "last_seen": "2026-06-24T16:45:35.968918"
+    }
+  ],
+  "style": {
+    "formality": "casual",
+    "remove_fillers": true,
+    "filler_words": [
+      "um",
+      "uh",
+      "like",
+      "you know"
+    ],
+    "languages": [
+      "en"
+    ],
+    "common_phrases": [],
+    "preferred_spelling": "en-US",
+    "notes": "The speaker tends to use informal language and contractions frequently. There are instances of unclear pronunciation leading to significant transcription errors."
+  },
+  "created_at": "2026-06-24T16:45:35.969095",
+  "updated_at": "2026-06-24T16:45:35.969765"
+}

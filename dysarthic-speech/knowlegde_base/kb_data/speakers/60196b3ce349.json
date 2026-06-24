@@ -1,0 +1,314 @@
+{
+  "speaker_id": "60196b3ce349",
+  "name": "speaker",
+  "domain": "general",
+  "topics": [
+    "daily life",
+    "travel",
+    "family"
+  ],
+  "vocabulary": [
+    {
+      "term": "coffee shop",
+      "category": "general",
+      "definition": "A place where coffee and light refreshments are served.",
+      "aliases": [
+        "coffeeshop"
+      ],
+      "added_at": "2026-06-24T15:56:10.468617"
+    },
+    {
+      "term": "therapy",
+      "category": "general",
+      "definition": "Treatment intended to relieve or heal a disorder.",
+      "aliases": [
+        "fair of peace"
+      ],
+      "added_at": "2026-06-24T15:56:10.468634"
+    },
+    {
+      "term": "five-year-old",
+      "category": "general",
+      "definition": "A child who is five years old.",
+      "aliases": [
+        "five year old"
+      ],
+      "added_at": "2026-06-24T15:56:10.468641"
+    },
+    {
+      "term": "professor",
+      "category": "general",
+      "definition": "A teacher of the highest rank in a college or university.",
+      "aliases": [
+        "proofet"
+      ],
+      "added_at": "2026-06-24T15:56:10.468649"
+    },
+    {
+      "term": "bruise",
+      "category": "general",
+      "definition": "An injury appearing as a discolored area on the skin.",
+      "aliases": [
+        "brooze"
+      ],
+      "added_at": "2026-06-24T15:56:10.468656"
+    },
+    {
+      "term": "Gaborone",
+      "category": "proper_noun",
+      "definition": "The capital city of Botswana.",
+      "aliases": [
+        "gabarone"
+      ],
+      "added_at": "2026-06-24T15:56:10.468663"
+    },
+    {
+      "term": "baseman",
+      "category": "general",
+      "definition": "A player in baseball who occupies a base.",
+      "aliases": [
+        "basement"
+      ],
+      "added_at": "2026-06-24T15:56:10.468667"
+    },
+    {
+      "term": "bicycle",
+      "category": "general",
+      "definition": "A vehicle composed of two wheels held in a frame one behind the other.",
+      "aliases": [
+        "bice"
+      ],
+      "added_at": "2026-06-24T15:56:10.468673"
+    }
+  ],
+  "corrections": [
+    {
+      "id": "0c194e87",
+      "stt_output": "its so sunny",
+      "intended": "It's so sunny",
+      "occurrences": 1,
+      "confidence": 0.9,
+      "source": "llm_suggested",
+      "context_hint": "The model often fails to recognize contractions, leading to missing apostrophes.",
+      "created_at": "2026-06-24T15:56:10.468337",
+      "last_seen": "2026-06-24T15:56:10.468338"
+    },
+    {
+      "id": "fcde4bb6",
+      "stt_output": "coffeeshop",
+      "intended": "coffee shop",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT model may misinterpret the compound word due to phonetic blending.",
+      "created_at": "2026-06-24T15:56:10.468086",
+      "last_seen": "2026-06-24T15:56:10.468141"
+    },
+    {
+      "id": "eb54b691",
+      "stt_output": "pin",
+      "intended": "pen",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT model may confuse similar-sounding words, particularly in rapid speech.",
+      "created_at": "2026-06-24T15:56:10.468228",
+      "last_seen": "2026-06-24T15:56:10.468230"
+    },
+    {
+      "id": "f82fcf12",
+      "stt_output": "five year old",
+      "intended": "five-year-old",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The model may not recognize the need for hyphenation in compound adjectives.",
+      "created_at": "2026-06-24T15:56:10.468386",
+      "last_seen": "2026-06-24T15:56:10.468387"
+    },
+    {
+      "id": "fa8deb21",
+      "stt_output": "parents had been separated for almost three years but she never expected them too",
+      "intended": "Her parents had been separated for almost three years, but she never expected them to",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT model misinterprets 'Her' as 'parents' and confuses 'to' with 'too' due to phonetic similarity.",
+      "created_at": "2026-06-24T15:56:10.468430",
+      "last_seen": "2026-06-24T15:56:10.468431"
+    },
+    {
+      "id": "5497b8d1",
+      "stt_output": "of law asked you a thousand times not to leave your dirty socks on the floor",
+      "intended": "I've asked you a thousand times not to leave your dirty socks on the floor.",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The model mishears 'I've' as 'of law' due to the rapid speech and phonetic overlap.",
+      "created_at": "2026-06-24T15:56:10.468453",
+      "last_seen": "2026-06-24T15:56:10.468455"
+    },
+    {
+      "id": "e0349dae",
+      "stt_output": "the waitress was not amused when he or when when eggs",
+      "intended": "The waitress was not amused when he ordered green eggs and ham.",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The model mishears 'ordered green eggs and ham' as 'or when when eggs' due to unclear pronunciation.",
+      "created_at": "2026-06-24T15:56:10.468482",
+      "last_seen": "2026-06-24T15:56:10.468483"
+    },
+    {
+      "id": "2dbe0fbe",
+      "stt_output": "the first basement caught the fly ball",
+      "intended": "The first baseman caught the fly ball.",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The model confuses 'baseman' with 'basement' due to phonetic similarity.",
+      "created_at": "2026-06-24T15:56:10.468509",
+      "last_seen": "2026-06-24T15:56:10.468510"
+    },
+    {
+      "id": "c074ffa0",
+      "stt_output": "the chandelier swayed in the breeze sending dust drifting over the tables",
+      "intended": "The chandelier swayed in the breeze, sending dust drifting over the tables.",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The model fails to include a comma, which alters the flow of the sentence.",
+      "created_at": "2026-06-24T15:56:10.468538",
+      "last_seen": "2026-06-24T15:56:10.468539"
+    },
+    {
+      "id": "30d206d8",
+      "stt_output": "fair of peace",
+      "intended": "therapy",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model likely mishears the phrase due to phonetic similarity and context.",
+      "created_at": "2026-06-24T15:56:10.468285",
+      "last_seen": "2026-06-24T15:56:10.468286"
+    },
+    {
+      "id": "1e0a0d7c",
+      "stt_output": "rises",
+      "intended": "rice",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "Phonetic similarity between 'rises' and 'rice' may lead to confusion in transcription.",
+      "created_at": "2026-06-24T15:56:10.468316",
+      "last_seen": "2026-06-24T15:56:10.468318"
+    },
+    {
+      "id": "c086f4ae",
+      "stt_output": "biggest mistake of your lot",
+      "intended": "biggest mistake of your life",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model may misinterpret the phrase due to phonetic similarity.",
+      "created_at": "2026-06-24T15:56:10.468353",
+      "last_seen": "2026-06-24T15:56:10.468355"
+    },
+    {
+      "id": "1c53c842",
+      "stt_output": "sand on the beach as a hop",
+      "intended": "sand on the beach as a hobby",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "Phonetic confusion between 'hop' and 'hobby' may occur in rapid speech.",
+      "created_at": "2026-06-24T15:56:10.468370",
+      "last_seen": "2026-06-24T15:56:10.468371"
+    },
+    {
+      "id": "41f97694",
+      "stt_output": "the proofet",
+      "intended": "the professor",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "Phonetic similarity may lead to misinterpretation of the word 'professor'.",
+      "created_at": "2026-06-24T15:56:10.468400",
+      "last_seen": "2026-06-24T15:56:10.468401"
+    },
+    {
+      "id": "7061708b",
+      "stt_output": "brooze",
+      "intended": "bruise",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model may mishear the vowel sounds in 'bruise' leading to incorrect transcription.",
+      "created_at": "2026-06-24T15:56:10.468415",
+      "last_seen": "2026-06-24T15:56:10.468416"
+    },
+    {
+      "id": "93c071d0",
+      "stt_output": "she meant to go to gabarone but mixed up both swans and bowie and ended up in horror",
+      "intended": "She meant to go to Gaborone, but mixed up Botswana and Zimbabwe and ended up in Harare",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The model confuses 'Gaborone' with 'gabarone' and mishears 'Botswana' and 'Zimbabwe' as 'both swans and bowie' due to phonetic similarity.",
+      "created_at": "2026-06-24T15:56:10.468468",
+      "last_seen": "2026-06-24T15:56:10.468469"
+    },
+    {
+      "id": "fe816790",
+      "stt_output": "he understands why the bird wanted to ride the bice",
+      "intended": "He didn't understand why the bird wanted to ride the bicycle.",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The model mishears 'bicycle' as 'bice' due to phonetic similarity and possibly unclear enunciation.",
+      "created_at": "2026-06-24T15:56:10.468496",
+      "last_seen": "2026-06-24T15:56:10.468497"
+    },
+    {
+      "id": "a34cb95c",
+      "stt_output": "she started crying after she finished the cell",
+      "intended": "She started crying after she finished the song.",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The model mishears 'song' as 'cell' due to phonetic overlap.",
+      "created_at": "2026-06-24T15:56:10.468523",
+      "last_seen": "2026-06-24T15:56:10.468524"
+    },
+    {
+      "id": "540c40ed",
+      "stt_output": "for",
+      "intended": "phone.",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The model mishears 'phone' as 'for' due to phonetic similarity.",
+      "created_at": "2026-06-24T15:56:10.468551",
+      "last_seen": "2026-06-24T15:56:10.468552"
+    }
+  ],
+  "style": {
+    "formality": "casual",
+    "remove_fillers": true,
+    "filler_words": [
+      "um",
+      "uh",
+      "like",
+      "you know",
+      "basically"
+    ],
+    "languages": [
+      "en"
+    ],
+    "common_phrases": [],
+    "preferred_spelling": "en-US",
+    "notes": "The speaker tends to use informal language and conversational phrases."
+  },
+  "created_at": "2026-06-24T15:56:10.468808",
+  "updated_at": "2026-06-24T15:56:10.469584"
+}

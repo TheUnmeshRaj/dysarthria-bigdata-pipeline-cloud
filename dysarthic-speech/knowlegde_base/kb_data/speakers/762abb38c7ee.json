@@ -1,0 +1,259 @@
+{
+  "speaker_id": "762abb38c7ee",
+  "name": "Vijesh",
+  "domain": "general",
+  "topics": [],
+  "vocabulary": [],
+  "corrections": [
+    {
+      "id": "2c29ccaa",
+      "stt_output": "cube netties",
+      "intended": "kubernetes",
+      "occurrences": 5,
+      "confidence": 1.0,
+      "source": "auto_feedback",
+      "context_hint": "...surface to the [cube netties → Kubernetes] cluster and make...",
+      "created_at": "2026-06-24T15:31:52.965362",
+      "last_seen": "2026-06-24T15:31:52.967054"
+    },
+    {
+      "id": "6a9794c1",
+      "stt_output": "die sarcastic",
+      "intended": "dice - arctic",
+      "occurrences": 4,
+      "confidence": 0.8875,
+      "source": "auto_feedback",
+      "context_hint": "...yesterday about the [die sarcastic → DICE - Arctic] model and he...",
+      "created_at": "2026-06-24T15:31:52.965676",
+      "last_seen": "2026-06-24T15:31:52.966541"
+    },
+    {
+      "id": "a7c1f332",
+      "stt_output": "micro surface",
+      "intended": "microservice",
+      "occurrences": 2,
+      "confidence": 0.75,
+      "source": "auto_feedback",
+      "context_hint": "...deploy the new [micro surface → microservice] to the cube...",
+      "created_at": "2026-06-24T15:31:52.965686",
+      "last_seen": "2026-06-24T15:31:52.965686"
+    },
+    {
+      "id": "ab4cd2e2",
+      "stt_output": "elastic search",
+      "intended": "elasticsearch",
+      "occurrences": 2,
+      "confidence": 0.75,
+      "source": "auto_feedback",
+      "context_hint": "...limit on the [elastic search → Elasticsearch] cluster...",
+      "created_at": "2026-06-24T15:31:52.965691",
+      "last_seen": "2026-06-24T15:31:52.965691"
+    },
+    {
+      "id": "0cd655d3",
+      "stt_output": "post gress",
+      "intended": "postgresql",
+      "occurrences": 2,
+      "confidence": 0.75,
+      "source": "auto_feedback",
+      "context_hint": "...failed because the [post gress → PostgreSQL] instance ran out...",
+      "created_at": "2026-06-24T15:31:52.965696",
+      "last_seen": "2026-06-24T15:31:52.965696"
+    },
+    {
+      "id": "9f69aea1",
+      "stt_output": "graph ana",
+      "intended": "grafana",
+      "occurrences": 2,
+      "confidence": 0.75,
+      "source": "auto_feedback",
+      "context_hint": "...proper monitoring with [graph ana → Grafana] and prometheus to...",
+      "created_at": "2026-06-24T15:31:52.965700",
+      "last_seen": "2026-06-24T15:31:52.965700"
+    },
+    {
+      "id": "58d54793",
+      "stt_output": "sea eye sea dee",
+      "intended": "ci / cd",
+      "occurrences": 1,
+      "confidence": 0.625,
+      "source": "auto_feedback",
+      "context_hint": "...make sure the [sea eye sea dee → CI / CD] pipeline is working...",
+      "created_at": "2026-06-24T15:31:52.965704",
+      "last_seen": "2026-06-24T15:31:52.965704"
+    },
+    {
+      "id": "e64224e3",
+      "stt_output": "doctor patel",
+      "intended": "dr . patel",
+      "occurrences": 1,
+      "confidence": 0.625,
+      "source": "auto_feedback",
+      "context_hint": "...was talking to [doctor patel → Dr . Patel] yesterday about the...",
+      "created_at": "2026-06-24T15:31:52.965709",
+      "last_seen": "2026-06-24T15:31:52.965709"
+    },
+    {
+      "id": "b2b2693a",
+      "stt_output": "lawn",
+      "intended": "load",
+      "occurrences": 1,
+      "confidence": 0.625,
+      "source": "auto_feedback",
+      "context_hint": "...is that the [lawn → load] balancer is not...",
+      "created_at": "2026-06-24T15:31:52.965713",
+      "last_seen": "2026-06-24T15:31:52.965713"
+    },
+    {
+      "id": "ba80ba8a",
+      "stt_output": "notes",
+      "intended": "nodes",
+      "occurrences": 1,
+      "confidence": 0.625,
+      "source": "auto_feedback",
+      "context_hint": "...across the three [notes → nodes] in our cluster...",
+      "created_at": "2026-06-24T15:31:52.965716",
+      "last_seen": "2026-06-24T15:31:52.965717"
+    },
+    {
+      "id": "80a1e981",
+      "stt_output": "in for structure",
+      "intended": "infrastructure",
+      "occurrences": 1,
+      "confidence": 0.625,
+      "source": "auto_feedback",
+      "context_hint": "...to provision the [in for structure → infrastructure] and then configure...",
+      "created_at": "2026-06-24T15:31:52.965720",
+      "last_seen": "2026-06-24T15:31:52.965720"
+    },
+    {
+      "id": "72a130d2",
+      "stt_output": "jeer ah",
+      "intended": "jira",
+      "occurrences": 1,
+      "confidence": 0.625,
+      "source": "auto_feedback",
+      "context_hint": "...draft board in [jeer ah → Jira] where we track...",
+      "created_at": "2026-06-24T15:31:52.965724",
+      "last_seen": "2026-06-24T15:31:52.965724"
+    },
+    {
+      "id": "b3a0a27e",
+      "stt_output": "spring",
+      "intended": "sprint",
+      "occurrences": 2,
+      "confidence": 0.6625,
+      "source": "auto_feedback",
+      "context_hint": "...track all the [spring → sprint] tasks and the...",
+      "created_at": "2026-06-24T15:31:52.965728",
+      "last_seen": "2026-06-24T15:31:52.967370"
+    },
+    {
+      "id": "094d0be1",
+      "stt_output": "burn down",
+      "intended": "burndown",
+      "occurrences": 1,
+      "confidence": 0.625,
+      "source": "auto_feedback",
+      "context_hint": "...tasks and the [burn down → burndown] chart...",
+      "created_at": "2026-06-24T15:31:52.965731",
+      "last_seen": "2026-06-24T15:31:52.965732"
+    },
+    {
+      "id": "5431d6f2",
+      "stt_output": "api gate way",
+      "intended": "api gateway",
+      "occurrences": 1,
+      "confidence": 0.625,
+      "source": "auto_feedback",
+      "context_hint": "...The [api gate way → API gateway] is throttling requests...",
+      "created_at": "2026-06-24T15:31:52.965735",
+      "last_seen": "2026-06-24T15:31:52.965735"
+    },
+    {
+      "id": "d3a78bcf",
+      "stt_output": "doc her",
+      "intended": "docker",
+      "occurrences": 1,
+      "confidence": 0.625,
+      "source": "auto_feedback",
+      "context_hint": "...surface architecture using [doc her → Docker] containers and cube...",
+      "created_at": "2026-06-24T15:31:52.965738",
+      "last_seen": "2026-06-24T15:31:52.965739"
+    },
+    {
+      "id": "fa94c7a6",
+      "stt_output": "data base",
+      "intended": "database",
+      "occurrences": 1,
+      "confidence": 0.625,
+      "source": "auto_feedback",
+      "context_hint": "...The [data base → database] migration script failed...",
+      "created_at": "2026-06-24T15:31:52.965742",
+      "last_seen": "2026-06-24T15:31:52.965742"
+    },
+    {
+      "id": "55abc04f",
+      "stt_output": "see eye sea dee",
+      "intended": "ci / cd",
+      "occurrences": 1,
+      "confidence": 0.625,
+      "source": "auto_feedback",
+      "context_hint": "...you check the [see eye sea dee → CI / CD] pipeline in jenkins...",
+      "created_at": "2026-06-24T15:31:52.965745",
+      "last_seen": "2026-06-24T15:31:52.965746"
+    },
+    {
+      "id": "b5dd19ad",
+      "stt_output": "red is",
+      "intended": "redis",
+      "occurrences": 1,
+      "confidence": 0.625,
+      "source": "auto_feedback",
+      "context_hint": "...We are using [red is → Redis] for caching and...",
+      "created_at": "2026-06-24T15:31:52.965749",
+      "last_seen": "2026-06-24T15:31:52.965749"
+    },
+    {
+      "id": "75d802b4",
+      "stt_output": "miss configured",
+      "intended": "misconfigured",
+      "occurrences": 1,
+      "confidence": 0.625,
+      "source": "auto_feedback",
+      "context_hint": "...netties pod is [miss configured → misconfigured] ...",
+      "created_at": "2026-06-24T15:31:52.965752",
+      "last_seen": "2026-06-24T15:31:52.965752"
+    },
+    {
+      "id": "67698ad5",
+      "stt_output": "bench mark",
+      "intended": "benchmark",
+      "occurrences": 1,
+      "confidence": 1.0,
+      "source": "auto_feedback",
+      "context_hint": "...on the latest [bench mark → benchmark] with a word...",
+      "created_at": "2026-06-24T15:31:52.966435",
+      "last_seen": "2026-06-24T15:31:52.966436"
+    }
+  ],
+  "style": {
+    "formality": "professional",
+    "remove_fillers": true,
+    "filler_words": [
+      "um",
+      "uh",
+      "like",
+      "you know",
+      "basically"
+    ],
+    "languages": [
+      "en"
+    ],
+    "common_phrases": [],
+    "preferred_spelling": "en-US",
+    "notes": null
+  },
+  "created_at": "2026-06-24T15:31:52.965805",
+  "updated_at": "2026-06-24T15:31:52.967372"
+}

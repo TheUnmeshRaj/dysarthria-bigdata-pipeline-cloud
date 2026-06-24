@@ -21,6 +21,17 @@ from pydantic import BaseModel, Field
 
 load_dotenv()
 
+# Automatically configure for Groq if GROQ_API_KEY is present or key starts with gsk_
+groq_key = os.environ.get("GROQ_API_KEY", "").strip()
+openai_key = os.environ.get("OPENAI_API_KEY", "").strip()
+
+if groq_key or openai_key.startswith("gsk_"):
+    # Ensure OPENAI_API_KEY is set so standard client initialization succeeds
+    os.environ["OPENAI_API_KEY"] = groq_key or openai_key
+    # Route all OpenAI client requests to Groq
+    if not os.environ.get("OPENAI_BASE_URL"):
+        os.environ["OPENAI_BASE_URL"] = "https://api.groq.com/openai/v1"
+
 # ---------------------------------------------------------------------------
 # App
 # ---------------------------------------------------------------------------
@@ -58,9 +69,21 @@ def _get_api_key() -> str:
     if not key:
         raise HTTPException(
             status_code=500,
-            detail="OPENAI_API_KEY is not configured on the server. Set it in a .env file.",
+            detail="Neither OPENAI_API_KEY nor GROQ_API_KEY is configured on the server. Set one in your .env file.",
         )
     return key
+
+
+def _map_model(model_name: Optional[str]) -> str:
+    key = os.environ.get("OPENAI_API_KEY", "").strip()
+    base_url = os.environ.get("OPENAI_BASE_URL", "").strip()
+    
+    is_groq = "api.groq.com" in base_url or key.startswith("gsk_")
+    
+    resolved = model_name or (DEFAULT_MODEL if not is_groq else "llama-3.3-70b-versatile")
+    if is_groq and resolved == "gpt-4o-mini":
+        return "llama-3.3-70b-versatile"
+    return resolved
 
 
 # ---------------------------------------------------------------------------
@@ -141,7 +164,7 @@ async def build_kb_endpoint(body: BuildKBRequest):
         profile = build_kb(
             pairs=pairs,
             api_key=api_key,
-            model=body.model or DEFAULT_MODEL,
+            model=_map_model(body.model),
             username=body.username,
             kb_dir=KB_DIR,
         )
@@ -169,7 +192,7 @@ async def correct_endpoint(body: CorrectRequest):
     from openai import OpenAI
 
     api_key = _get_api_key()
-    model = body.model or DEFAULT_MODEL
+    model = _map_model(body.model)
 
     profile = load_profile_by_username(body.username, KB_DIR)
 

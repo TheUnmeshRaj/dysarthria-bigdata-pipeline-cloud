@@ -1,0 +1,186 @@
+{
+  "speaker_id": "cb3fa127d087",
+  "name": "unmesh",
+  "domain": "general",
+  "topics": [
+    "daily life",
+    "personal experiences",
+    "conversations"
+  ],
+  "vocabulary": [
+    {
+      "term": "sphinx",
+      "category": "general",
+      "definition": "a mythical creature with the body of a lion and the head of a human",
+      "aliases": [
+        "jerch"
+      ],
+      "added_at": "2026-06-24T19:51:06.456294"
+    },
+    {
+      "term": "quartz",
+      "category": "general",
+      "definition": "a type of mineral",
+      "aliases": [
+        "vat"
+      ],
+      "added_at": "2026-06-24T19:51:06.456318"
+    },
+    {
+      "term": "vow",
+      "category": "general",
+      "definition": "a promise or oath",
+      "aliases": [
+        "vat"
+      ],
+      "added_at": "2026-06-24T19:51:06.456331"
+    },
+    {
+      "term": "Grief",
+      "category": "general",
+      "definition": "a feeling of deep sorrow",
+      "aliases": [
+        "grave"
+      ],
+      "added_at": "2026-06-24T19:51:06.456343"
+    },
+    {
+      "term": "Glazed",
+      "category": "general",
+      "definition": "covered with a layer of glaze",
+      "aliases": [
+        "laze"
+      ],
+      "added_at": "2026-06-24T19:51:06.456354"
+    },
+    {
+      "term": "Juan",
+      "category": "proper_noun",
+      "definition": "a male given name",
+      "aliases": [
+        "one",
+        "won"
+      ],
+      "added_at": "2026-06-24T19:51:06.456365"
+    }
+  ],
+  "corrections": [
+    {
+      "id": "d6b354de",
+      "stt_output": "i dont want to drink alcohol",
+      "intended": "I don't want to drink alcohol",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT model often fails to capitalize the first person singular pronoun 'I', indicating a lack of attention to grammatical context.",
+      "created_at": "2026-06-24T19:51:06.455965",
+      "last_seen": "2026-06-24T19:51:06.455968"
+    },
+    {
+      "id": "cd1523b2",
+      "stt_output": "ive got other problem",
+      "intended": "I've got other problems",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT model often misses apostrophes and plural forms, leading to grammatically incorrect transcriptions.",
+      "created_at": "2026-06-24T19:51:06.456158",
+      "last_seen": "2026-06-24T19:51:06.456162"
+    },
+    {
+      "id": "aec260ba",
+      "stt_output": "up over the fence and plunge it",
+      "intended": "Hop over the fence and plunge in",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model struggles with homophones and similar-sounding words, leading to incorrect verb choices.",
+      "created_at": "2026-06-24T19:51:06.455865",
+      "last_seen": "2026-06-24T19:51:06.455873"
+    },
+    {
+      "id": "32eb3fb1",
+      "stt_output": "veny asleep is healthful",
+      "intended": "Plenty of sleep is healthful",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model has difficulty with vowel sounds and word boundaries, resulting in incorrect word choices.",
+      "created_at": "2026-06-24T19:51:06.455933",
+      "last_seen": "2026-06-24T19:51:06.455937"
+    },
+    {
+      "id": "d04f446b",
+      "stt_output": "jerch my vat",
+      "intended": "Sphinx of black quartz, judge my vow",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model is unable to recognize poetic or figurative language, leading to completely incorrect transcriptions.",
+      "created_at": "2026-06-24T19:51:06.455991",
+      "last_seen": "2026-06-24T19:51:06.455994"
+    },
+    {
+      "id": "4e81f8fa",
+      "stt_output": "grave is a ritual",
+      "intended": "Grief is a ritual",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model confuses 'grave' with 'grief' due to similar pronunciation.",
+      "created_at": "2026-06-24T19:51:06.456015",
+      "last_seen": "2026-06-24T19:51:06.456018"
+    },
+    {
+      "id": "b2f0ece5",
+      "stt_output": "appearance freeze",
+      "intended": "Peter ate french fries",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model struggles with proper nouns and phrases with similar sounds, resulting in incorrect transcription.",
+      "created_at": "2026-06-24T19:51:06.456108",
+      "last_seen": "2026-06-24T19:51:06.456113"
+    },
+    {
+      "id": "9574143f",
+      "stt_output": "one watch tv",
+      "intended": "Juan watched TV",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model confuses proper nouns and verb tenses, resulting in incorrect transcription.",
+      "created_at": "2026-06-24T19:51:06.456184",
+      "last_seen": "2026-06-24T19:51:06.456187"
+    },
+    {
+      "id": "286d9111",
+      "stt_output": "laze donuts are amazing",
+      "intended": "Glazed donuts are amazing",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model struggles with word recognition, particularly with similar-sounding words like 'laze' and 'glazed'.",
+      "created_at": "2026-06-24T19:51:06.456212",
+      "last_seen": "2026-06-24T19:51:06.456215"
+    }
+  ],
+  "style": {
+    "formality": "casual",
+    "remove_fillers": true,
+    "filler_words": [
+      "um",
+      "uh",
+      "like",
+      "you know"
+    ],
+    "languages": [
+      "en"
+    ],
+    "common_phrases": [],
+    "preferred_spelling": "en-US",
+    "notes": "The speaker's style is informal, with a tendency to use everyday language and colloquial expressions."
+  },
+  "created_at": "2026-06-24T19:51:06.456459",
+  "updated_at": "2026-06-24T19:51:06.458337"
+}

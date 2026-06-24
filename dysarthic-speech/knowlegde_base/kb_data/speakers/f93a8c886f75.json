@@ -1,0 +1,26 @@
+{
+  "speaker_id": "f93a8c886f75",
+  "name": "unmesh",
+  "domain": "general",
+  "topics": [],
+  "vocabulary": [],
+  "corrections": [],
+  "style": {
+    "formality": "professional",
+    "remove_fillers": true,
+    "filler_words": [
+      "um",
+      "uh",
+      "like",
+      "you know"
+    ],
+    "languages": [
+      "en"
+    ],
+    "common_phrases": [],
+    "preferred_spelling": "en-US",
+    "notes": null
+  },
+  "created_at": "2026-06-24T19:44:45.451803",
+  "updated_at": "2026-06-24T19:44:45.452895"
+}

@@ -3,7 +3,7 @@
 // Communicates with the FastAPI backend at port 8000
 // ═══════════════════════════════════════════════════
 
-const KB_API_BASE = 'http://127.0.0.1:8000';
+const KB_API_BASE = import.meta.env.VITE_KB_API_BASE || 'http://127.0.0.1:8000';
 
 export interface TranscriptPair {
   model_output: string;

@@ -7,8 +7,8 @@ export interface TranscriptionResponse {
 export async function transcribeAudio(audioBlob: Blob, filename?: string): Promise<TranscriptionResponse> {
   console.log(`[API] transcribeAudio starting for: ${filename}`);
   try {
-    console.log(`[API] Client.connect connecting to proxied Gradio API at /gradio-api...`);
-    const client = await Client.connect(window.location.origin + "/gradio-api");
+    console.log(`[API] Client.connect connecting to Gradio space: Unmeshraj/dysarthric-transcriber...`);
+    const client = await Client.connect("Unmeshraj/dysarthric-transcriber");
     console.log(`[API] Connected to Gradio successfully.`);
 
     // Create a File object from the Blob (Gradio expects a Blob/File)

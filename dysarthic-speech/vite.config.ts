@@ -11,10 +11,14 @@ export default defineConfig(({ mode }) => {
       'process.env.HF_TOKEN': JSON.stringify(env.HF_TOKEN || ''),
     },
     server: {
-      headers: {
-        'Cross-Origin-Opener-Policy': 'same-origin',
-        'Cross-Origin-Embedder-Policy': 'require-corp',
-      },
+      proxy: {
+        '/gradio-api': {
+          target: 'https://unmeshraj-dysarthric-transcriber.hf.space',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/gradio-api/, ''),
+          ws: true,
+        }
+      }
     },
     optimizeDeps: {
       exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util'],

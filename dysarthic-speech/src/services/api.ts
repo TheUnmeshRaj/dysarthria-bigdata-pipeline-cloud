@@ -5,22 +5,33 @@ export interface TranscriptionResponse {
 }
 
 export async function transcribeAudio(audioBlob: Blob, filename?: string): Promise<TranscriptionResponse> {
-  const client = await Client.connect("Unmeshraj/dysarthric-transcriber");
+  console.log(`[API] transcribeAudio starting for: ${filename}`);
+  try {
+    console.log(`[API] Client.connect connecting to proxied Gradio API at /gradio-api...`);
+    const client = await Client.connect(window.location.origin + "/gradio-api");
+    console.log(`[API] Connected to Gradio successfully.`);
 
-  // Create a File object from the Blob (Gradio expects a Blob/File)
-  const audioFile = new File([audioBlob], filename || "audio.wav", {
-    type: audioBlob.type || "audio/wav",
-  });
+    // Create a File object from the Blob (Gradio expects a Blob/File)
+    const audioFile = new File([audioBlob], filename || "audio.wav", {
+      type: audioBlob.type || "audio/wav",
+    });
 
-  const result = await client.predict("/transcribe", {
-    audio_file: audioFile,
-  });
+    console.log(`[API] Calling client.predict("/transcribe") with file of size: ${audioFile.size} bytes`);
+    const result = await client.predict("/transcribe", {
+      audio_file: audioFile,
+    });
+    console.log(`[API] Predict result received:`, result);
 
-  // Gradio returns data as an array — the transcript is the first element
-  const data = result.data as string[];
-  const transcript = Array.isArray(data) ? data[0] : String(data);
+    // Gradio returns data as an array — the transcript is the first element
+    const data = result.data as string[];
+    const transcript = Array.isArray(data) ? data[0] : String(data);
+    console.log(`[API] Parsed transcript successfully: "${transcript}"`);
 
-  return { transcript };
+    return { transcript };
+  } catch (err) {
+    console.error(`[API] Exception caught in transcribeAudio:`, err);
+    throw err;
+  }
 }
 
 /**

@@ -413,9 +413,9 @@ export default function App() {
               initial={{ opacity: 0, y: 50, x: 20 }}
               animate={{ opacity: 1, y: 0, x: 0 }}
               exit={{ opacity: 0, y: 20, x: 20 }}
-              className="fixed bottom-6 right-6 z-50 glass-card p-4 shadow-[0_0_30px_rgba(124,58,237,0.2)] flex items-center gap-3 border border-purple-500/30 bg-purple-950/80 backdrop-blur-md max-w-sm"
+              className="fixed bottom-6 right-6 z-50 glass-card p-4 shadow-[0_0_30px_rgba(124,58,237,0.2)] flex items-center gap-3 border border-blue-500/30 bg-blue-950/80 backdrop-blur-md max-w-sm"
             >
-              <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+              <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
                 <Sparkles className="w-4 h-4 animate-pulse-glow" />
               </div>
               <div className="text-left">

@@ -88,7 +88,7 @@ export default function Header({ activePage, setActivePage }: HeaderProps) {
       <FloatingParticles />
 
       {/* Gradient line at top */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent-cyan)] to-transparent opacity-40" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-slate-800/20 opacity-40" />
 
       <motion.div variants={fadeInDown} className="relative z-10 px-6 pb-10">
         <div className="flex items-center justify-center gap-3 mb-5">
@@ -140,7 +140,7 @@ export default function Header({ activePage, setActivePage }: HeaderProps) {
           onClick={() => setActivePage('knowledge-base')}
           className={`px-5 py-3 text-sm font-semibold tracking-wide border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
             activePage === 'knowledge-base'
-              ? 'border-purple-400 text-purple-400 bg-purple-950/20 rounded-t-lg'
+              ? 'border-blue-400 text-blue-400 bg-blue-950/20 rounded-t-lg'
               : 'border-transparent text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)] hover:bg-slate-800/20 rounded-t-lg'
           }`}
         >
@@ -161,7 +161,7 @@ export default function Header({ activePage, setActivePage }: HeaderProps) {
       </div>
 
       {/* Gradient line at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent-purple)] to-transparent opacity-20" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-slate-800/20 opacity-20" />
     </motion.header>
   );
 }

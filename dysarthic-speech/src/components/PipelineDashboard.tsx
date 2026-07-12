@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Sparkles,
+  Database,
   ArrowRight,
   Play,
   Pause,
@@ -44,14 +44,14 @@ const POOL_OF_LOGS = [
 export default function PipelineDashboard() {
   const [chartScriptLoaded, setChartScriptLoaded] = useState(false);
   const [isLive, setIsLive] = useState(false);
-  
+
   // Dynamic stats
   const [processedCount, setProcessedCount] = useState(16543);
   const [datasetSize, setDatasetSize] = useState(3200.0);
   const [cpuLoads, setCpuLoads] = useState([45, 62, 28, 12]);
   const [ramUsage, setRamUsage] = useState(78.4);
   const [activeStage, setActiveStage] = useState(1); // 0: XTTS, 1: Spark, 2: Whisper, 3: SQL
-  
+
   // Logs
   const [logs, setLogs] = useState<string[]>(INITIAL_LOGS);
   const consoleEndRef = useRef<HTMLDivElement | null>(null);
@@ -438,11 +438,10 @@ export default function PipelineDashboard() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsLive(!isLive)}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold border tracking-wide transition-all cursor-pointer ${
-              isLive
-                ? 'bg-green-500/10 border-green-500/30 text-green-400 hover:bg-green-500/20'
-                : 'bg-slate-800/80 border-slate-700/80 text-slate-400 hover:bg-slate-700'
-            }`}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold border tracking-wide transition-all cursor-pointer ${isLive
+              ? 'bg-green-500/10 border-green-500/30 text-green-400 hover:bg-green-500/20'
+              : 'bg-slate-800/80 border-slate-700/80 text-slate-400 hover:bg-slate-700'
+              }`}
           >
             {isLive ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
             {isLive ? 'Pause Real-time Sync' : 'Sync Real-time'}
@@ -472,8 +471,8 @@ export default function PipelineDashboard() {
           </div>
         </div>
 
-        <div className="glass-card p-5 border-l-4 border-l-purple-500">
-          <div className="text-2xl font-bold text-purple-400 font-mono">
+        <div className="glass-card p-5 border-l-4 border-l-blue-500">
+          <div className="text-2xl font-bold text-blue-400 font-mono">
             {datasetSize.toLocaleString()} MB
           </div>
           <div className="text-[10px] text-[var(--color-text-tertiary)] uppercase font-semibold tracking-wider mt-1">
@@ -495,7 +494,7 @@ export default function PipelineDashboard() {
         </div>
 
         <div className="glass-card p-5 border-l-4 border-l-red-500">
-          <div className="text-2xl font-bold text-red-400 font-mono">42.12%</div>
+          <div className="text-2xl font-bold text-red-400 font-mono">38.00%</div>
           <div className="text-[10px] text-[var(--color-text-tertiary)] uppercase font-semibold tracking-wider mt-1">
             Baseline Whisper WER
           </div>
@@ -522,61 +521,57 @@ export default function PipelineDashboard() {
 
       {/* Architecture Flow Banner */}
       <motion.div variants={fadeInUp} className="glass-card p-6 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-none hidden pointer-events-none" />
         <h3 className="text-xs font-semibold tracking-widest text-[var(--color-text-tertiary)] uppercase mb-4">
           Data Pipeline Stages & Current Executor Routing
         </h3>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-7 gap-3 items-center">
-          <div className={`border rounded-xl p-4 text-center space-y-1.5 transition-all duration-500 ${
-            activeStage === 0 
-              ? 'bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.15)] scale-[1.03]'
-              : 'bg-[var(--color-bg-secondary)] border-[var(--color-border-default)]'
-          }`}>
+          <div className={`border rounded-xl p-4 text-center space-y-1.5 transition-all duration-500 ${activeStage === 0
+            ? 'bg-cyan-500/10 border-cyan-500/50 shadow-md scale-[1.03]'
+            : 'bg-[var(--color-bg-secondary)] border-[var(--color-border-default)]'
+            }`}>
             <h4 className="text-xs font-semibold text-[var(--color-text-primary)]">Synthetic Generation</h4>
             <p className="text-[10px] text-[var(--color-accent-cyan)] font-medium">XTTS-v2 Engine</p>
             <p className="text-[9px] text-[var(--color-text-tertiary)]">16k .wavs · GPU</p>
           </div>
 
           <div className="hidden md:flex justify-center text-slate-600">
-            <ArrowRight className={`w-5 h-5 ${activeStage === 0 && 'text-cyan-400 animate-pulse'}`} />
+            <ArrowRight className={`w-5 h-5 ${activeStage === 0 && 'text-cyan-400 '}`} />
           </div>
 
-          <div className={`border rounded-xl p-4 text-center space-y-1.5 transition-all duration-500 ${
-            activeStage === 1 
-              ? 'bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.15)] scale-[1.03]'
-              : 'bg-[var(--color-bg-secondary)] border-[var(--color-border-default)]'
-          }`}>
+          <div className={`border rounded-xl p-4 text-center space-y-1.5 transition-all duration-500 ${activeStage === 1
+            ? 'bg-cyan-500/10 border-cyan-500/50 shadow-md scale-[1.03]'
+            : 'bg-[var(--color-bg-secondary)] border-[var(--color-border-default)]'
+            }`}>
             <h4 className="text-xs font-semibold text-[var(--color-text-primary)]">Parallel Augment</h4>
             <p className="text-[10px] text-cyan-400 font-medium">Apache Spark</p>
             <p className="text-[9px] text-[var(--color-text-tertiary)]">4,652 files · 4 cores</p>
           </div>
 
           <div className="hidden md:flex justify-center text-slate-600">
-            <ArrowRight className={`w-5 h-5 ${activeStage === 1 && 'text-cyan-400 animate-pulse'}`} />
+            <ArrowRight className={`w-5 h-5 ${activeStage === 1 && 'text-cyan-400 '}`} />
           </div>
 
-          <div className={`border rounded-xl p-4 text-center space-y-1.5 transition-all duration-500 ${
-            activeStage === 2 
-              ? 'bg-purple-500/10 border-purple-500/50 shadow-[0_0_15px_rgba(124,58,237,0.15)] scale-[1.03]'
-              : 'bg-[var(--color-bg-secondary)] border-[var(--color-border-default)]'
-          }`}>
+          <div className={`border rounded-xl p-4 text-center space-y-1.5 transition-all duration-500 ${activeStage === 2
+            ? 'bg-blue-500/10 border-blue-500/50 shadow-md scale-[1.03]'
+            : 'bg-[var(--color-bg-secondary)] border-[var(--color-border-default)]'
+            }`}>
             <h4 className="text-xs font-semibold text-[var(--color-text-primary)]">Feature Extract</h4>
-            <p className="text-[10px] text-purple-400 font-medium">PySpark + Librosa</p>
+            <p className="text-[10px] text-blue-400 font-medium">PySpark + Librosa</p>
             <p className="text-[9px] text-[var(--color-text-tertiary)]">Log-Mel arrays UDF</p>
           </div>
 
           <div className="hidden md:flex justify-center text-slate-600">
-            <ArrowRight className={`w-5 h-5 ${activeStage === 2 && 'text-purple-400 animate-pulse'}`} />
+            <ArrowRight className={`w-5 h-5 ${activeStage === 2 && 'text-blue-400 '}`} />
           </div>
 
-          <div className={`border rounded-xl p-4 text-center space-y-1.5 transition-all duration-500 ${
-            activeStage === 3 
-              ? 'bg-purple-500/10 border-purple-500/50 shadow-[0_0_15px_rgba(124,58,237,0.15)] scale-[1.03]'
-              : 'bg-[var(--color-bg-secondary)] border-[var(--color-border-default)]'
-          }`}>
+          <div className={`border rounded-xl p-4 text-center space-y-1.5 transition-all duration-500 ${activeStage === 3
+            ? 'bg-blue-500/10 border-blue-500/50 shadow-md scale-[1.03]'
+            : 'bg-[var(--color-bg-secondary)] border-[var(--color-border-default)]'
+            }`}>
             <h4 className="text-xs font-semibold text-[var(--color-text-primary)]">LoRA Fine-Tuning</h4>
-            <p className="text-[10px] text-purple-400 font-medium">HuggingFace PEFT</p>
+            <p className="text-[10px] text-blue-400 font-medium">HuggingFace PEFT</p>
             <p className="text-[9px] text-[var(--color-text-tertiary)]">14+ hrs · dual T4 GPU</p>
           </div>
         </div>
@@ -595,7 +590,7 @@ export default function PipelineDashboard() {
               <p className="text-xs text-[var(--color-text-tertiary)]">Batch execution transaction logs</p>
             </div>
             {isLive && (
-              <span className="text-[9px] font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20 uppercase tracking-widest animate-pulse">
+              <span className="text-[9px] font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20 uppercase tracking-widest ">
                 Syncing
               </span>
             )}
@@ -608,7 +603,7 @@ export default function PipelineDashboard() {
                 if (log.includes("completed") || log.includes("Success")) {
                   colorClass = "text-green-400";
                 } else if (log.includes("Batch") || log.includes("Stage")) {
-                  colorClass = "text-purple-400 font-medium";
+                  colorClass = "text-blue-400 font-medium";
                 } else if (log.includes("Cores") || log.includes("Spark version")) {
                   colorClass = "text-cyan-400";
                 } else if (log.includes("DirectKafkaInputDStream")) {
@@ -629,7 +624,7 @@ export default function PipelineDashboard() {
         <div className="glass-card p-6 flex flex-col justify-between space-y-4">
           <div className="space-y-0.5">
             <h3 className="text-sm font-semibold text-[var(--color-text-primary)] flex items-center gap-2">
-              <Activity className="w-4 h-4 text-purple-400" />
+              <Activity className="w-4 h-4 text-blue-400" />
               Executor Resource Monitor
             </h3>
             <p className="text-xs text-[var(--color-text-tertiary)]">CPU & RAM allocation loads</p>
@@ -650,10 +645,10 @@ export default function PipelineDashboard() {
               <div className="grid grid-cols-4 gap-2">
                 {cpuLoads.map((load, idx) => (
                   <div key={idx} className="bg-slate-900 border border-[var(--color-border-default)] rounded-lg p-2 text-center space-y-1">
-                    <span className="text-[9px] text-slate-500 font-semibold font-mono">C{idx+1}</span>
+                    <span className="text-[9px] text-slate-500 font-semibold font-mono">C{idx + 1}</span>
                     <div className="w-full bg-slate-800 rounded-full h-12 relative overflow-hidden flex flex-col justify-end">
                       <motion.div
-                        className="bg-gradient-to-t from-cyan-600 to-cyan-400 w-full"
+                        className=" w-full"
                         animate={{ height: `${load}%` }}
                         transition={{ type: 'spring', stiffness: 80 }}
                       />
@@ -668,18 +663,18 @@ export default function PipelineDashboard() {
             <div className="space-y-2">
               <div className="flex justify-between text-[11px] text-slate-300 font-semibold">
                 <span>JVM Heap RAM Allocation</span>
-                <span className="font-mono text-purple-400">{ramUsage}%</span>
+                <span className="font-mono text-blue-400">{ramUsage}%</span>
               </div>
               <div className="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-[var(--color-border-default)]">
                 <motion.div
-                  className="bg-gradient-to-r from-purple-600 to-purple-400 h-full"
+                  className=" h-full"
                   animate={{ width: `${ramUsage}%` }}
                   transition={{ type: 'spring', stiffness: 50 }}
                 />
               </div>
               <div className="flex justify-between text-[9px] text-slate-500 font-mono">
                 <span>Total Heap: 8 GB</span>
-                <span>Active: {(8 * (ramUsage/100)).toFixed(2)} GB</span>
+                <span>Active: {(8 * (ramUsage / 100)).toFixed(2)} GB</span>
               </div>
             </div>
           </div>
@@ -757,7 +752,7 @@ export default function PipelineDashboard() {
             <div>
               <span className="text-cyan-400 font-semibold">── General Pipeline Gains ──</span>
               <pre className="text-slate-500 mt-1">
-{`+------------------+-------------------+-----------------+
+                {`+------------------+-------------------+-----------------+
 | baseline_WER_pct | finetuned_WER_pct | improvement_pct |
 +------------------+-------------------+-----------------+
 |            42.12 |             23.28 |           44.74 |
@@ -767,7 +762,7 @@ export default function PipelineDashboard() {
             <div>
               <span className="text-cyan-400 font-semibold">── WER Breakdown by Severity ──</span>
               <pre className="text-slate-500 mt-1">
-{`+----------+--------------+---------------+
+                {`+----------+--------------+---------------+
 | severity | baseline_pct | finetuned_pct |
 +----------+--------------+---------------+
 |     mild |        26.15 |         14.08 |
@@ -860,7 +855,7 @@ export default function PipelineDashboard() {
                 </tr>
                 <tr className="bg-cyan-500/5 hover:bg-cyan-500/10 transition-colors border border-cyan-500/20 rounded-lg">
                   <td className="py-3 px-3 font-semibold text-[var(--color-accent-cyan)] flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse-glow" />
+                    <Database className="w-3.5 h-3.5 text-cyan-400 " />
                     Ours — Whisper-small + LoRA
                   </td>
                   <td className="py-3 px-3 font-mono text-cyan-400 font-bold">16.12%</td>

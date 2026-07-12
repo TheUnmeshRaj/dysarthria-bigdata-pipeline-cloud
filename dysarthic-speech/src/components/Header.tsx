@@ -72,8 +72,8 @@ function NeuralMesh() {
 }
 
 interface HeaderProps {
-  activePage: 'transcribe' | 'knowledge-base';
-  setActivePage: (page: 'transcribe' | 'knowledge-base') => void;
+  activePage: 'transcribe' | 'knowledge-base' | 'pipeline-dashboard';
+  setActivePage: (page: 'transcribe' | 'knowledge-base' | 'pipeline-dashboard') => void;
 }
 
 export default function Header({ activePage, setActivePage }: HeaderProps) {
@@ -146,6 +146,17 @@ export default function Header({ activePage, setActivePage }: HeaderProps) {
         >
           <BookOpen className="w-4 h-4" />
           Knowledge Base
+        </button>
+        <button
+          onClick={() => setActivePage('pipeline-dashboard')}
+          className={`px-5 py-3 text-sm font-semibold tracking-wide border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
+            activePage === 'pipeline-dashboard'
+              ? 'border-blue-400 text-blue-400 bg-blue-950/20 rounded-t-lg'
+              : 'border-transparent text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)] hover:bg-slate-800/20 rounded-t-lg'
+          }`}
+        >
+          <Activity className="w-4 h-4" />
+          Pipeline Analytics
         </button>
       </div>
 

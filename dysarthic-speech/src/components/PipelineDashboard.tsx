@@ -1,17 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import {
-  Database,
-  Cpu,
-  Layers,
-  Sparkles,
-  Play,
-  TrendingDown,
-  Clock,
-  ArrowRight,
-  TrendingUp,
-  FileAudio,
-} from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
 import { fadeInUp, staggerContainer } from '../animations/variants';
 
 export default function PipelineDashboard() {

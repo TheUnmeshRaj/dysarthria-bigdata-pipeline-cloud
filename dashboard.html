@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dysarthric ASR — Big Data Pipeline Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:#0f1117; color:#e2e8f0; min-height:100vh; }
+
+  .header { background:#1a1d27; border-bottom:1px solid #2d3148; padding:16px 32px; display:flex; justify-content:space-between; align-items:center; }
+  .header h1 { font-size:16px; font-weight:600; color:#f1f5f9; }
+  .header p  { font-size:11px; color:#64748b; margin-top:2px; }
+  .badges    { display:flex; gap:8px; }
+  .badge     { padding:3px 11px; border-radius:20px; font-size:10px; font-weight:600; }
+  .b-green   { background:#14532d; color:#4ade80; }
+  .b-blue    { background:#1e3a5f; color:#60a5fa; }
+  .b-orange  { background:#431407; color:#fb923c; }
+
+  .page { padding:22px 30px; max-width:1380px; margin:0 auto; }
+
+  /* Stats */
+  .stats { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:20px; }
+  .stat  { background:#1a1d27; border:1px solid #2d3148; border-radius:9px; padding:14px 18px; }
+  .sv    { font-size:24px; font-weight:700; }
+  .sv.green  { color:#4ade80; }
+  .sv.blue   { color:#60a5fa; }
+  .sv.orange { color:#fb923c; }
+  .sv.purple { color:#c084fc; }
+  .sl    { font-size:10px; color:#64748b; text-transform:uppercase; letter-spacing:.05em; margin-top:3px; }
+  .ss    { font-size:10px; color:#475569; margin-top:5px; }
+
+  /* Pipeline */
+  .pipe-section { background:#1a1d27; border:1px solid #2d3148; border-radius:9px; padding:18px 22px; margin-bottom:20px; }
+  .sec-title    { font-size:11px; font-weight:600; color:#64748b; text-transform:uppercase; letter-spacing:.08em; margin-bottom:14px; }
+  .pipeline     { display:flex; align-items:stretch; gap:0; overflow-x:auto; }
+  .pnode        { flex:1; min-width:155px; background:#0f1117; border:1px solid #2d3148; border-radius:7px; padding:12px 14px; text-align:center; }
+  .pnode.hi     { border-color:#3b82f6; background:#1e3a5f18; }
+  .pn-title     { font-size:11px; font-weight:600; color:#e2e8f0; margin-bottom:3px; }
+  .pn-tool      { font-size:10px; color:#60a5fa; font-weight:500; }
+  .pn-detail    { font-size:9px; color:#64748b; margin-top:2px; }
+  .parrow       { color:#3b82f6; font-size:18px; padding:0 7px; display:flex; align-items:center; flex-shrink:0; }
+
+  /* Grids */
+  .g2   { display:grid; grid-template-columns:1fr 1fr;     gap:16px; margin-bottom:20px; }
+  .g3   { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:20px; }
+  .g21  { display:grid; grid-template-columns:2fr 1fr;     gap:16px; margin-bottom:20px; }
+
+  .card { background:#1a1d27; border:1px solid #2d3148; border-radius:9px; padding:18px 22px; }
+  .ct   { font-size:12px; font-weight:600; color:#e2e8f0; margin-bottom:3px; }
+  .cs   { font-size:10px; color:#64748b; margin-bottom:14px; }
+
+  /* Spark log */
+  .spark-log { background:#0d1117; border:1px solid #2d3148; border-radius:6px; padding:14px; font-family:'Courier New',monospace; font-size:10.5px; line-height:1.8; color:#94a3b8; white-space:pre; overflow-x:auto; }
+  .spark-log .ok    { color:#4ade80; }
+  .spark-log .info  { color:#60a5fa; }
+  .spark-log .warn  { color:#fb923c; }
+  .spark-log .head  { color:#c084fc; font-weight:600; }
+
+  /* Table */
+  table { width:100%; border-collapse:collapse; font-size:11px; }
+  thead tr { background:#111827; }
+  th { text-align:left; padding:7px 11px; color:#64748b; font-size:10px; text-transform:uppercase; letter-spacing:.05em; border-bottom:1px solid #2d3148; }
+  td { padding:8px 11px; border-bottom:1px solid #1e2235; }
+  tr.best td { color:#4ade80; font-weight:600; background:#14532d18; }
+  .bar-bg { background:#1e2235; border-radius:3px; height:5px; margin-top:3px; }
+  .bar    { height:5px; border-radius:3px; background:#3b82f6; }
+  .bar.g  { background:#4ade80; }
+
+  /* DAG */
+  .dag      { display:flex; flex-direction:column; align-items:center; gap:0; padding:8px 0; }
+  .dag-node { padding:9px 18px; border-radius:6px; font-size:11px; font-weight:500; min-width:200px; text-align:center; }
+  .dn-done  { background:#14532d; border:1px solid #4ade80; color:#4ade80; }
+  .dn-skip  { background:#1c1c2e; border:1px solid #475569; color:#94a3b8; }
+  .dag-dur  { font-size:9px; color:#64748b; margin-top:2px; }
+  .dag-arr  { color:#3b82f6; font-size:16px; line-height:1.4; text-align:center; }
+  .dot      { width:7px; height:7px; border-radius:50%; display:inline-block; margin-right:5px; }
+  .dg { background:#4ade80; }
+  .dw { background:#fb923c; }
+
+  .footer { text-align:center; padding:20px; color:#334155; font-size:10px; border-top:1px solid #1e2235; margin-top:8px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>Dysarthric ASR — Big Data Pipeline Dashboard</h1>
+    <p>RV College of Engineering</p>
+  </div>
+  <div class="badges">
+    <span class="badge b-blue">Apache Spark (PySpark)</span>
+    <span class="badge b-green">Spark SQL</span>
+    <span class="badge b-orange">Whisper-LoRA</span>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat">
+      <div class="sv blue">4,652</div>
+      <div class="sl">Audio files processed</div>
+      <div class="ss">Synthetic dysarthric speech · Kaggle</div>
+    </div>
+    <div class="stat">
+      <div class="sv purple">1,396.7 MB</div>
+      <div class="sl">Dataset size</div>
+      <div class="ss">4 male + 4 female speaker datasets</div>
+    </div>
+    <div class="stat">
+      <div class="sv blue">4 cores</div>
+      <div class="sl">PySpark parallelism</div>
+      <div class="ss">local[*] · Kaggle CPU environment</div>
+    </div>
+    <div class="stat">
+      <div class="sv orange">42.12%</div>
+      <div class="sl">Baseline WER</div>
+      <div class="ss">Whisper-small on TORGO · no fine-tuning</div>
+    </div>
+    <div class="stat">
+      <div class="sv green">16.12%</div>
+      <div class="sl">Final WER · TORGO benchmark</div>
+      <div class="ss">Best published result · 49.86% improvement</div>
+    </div>
+  </div>
+
+  <!-- Pipeline -->
+  <div class="pipe-section">
+    <div class="sec-title">Big Data Pipeline Architecture</div>
+    <div class="pipeline">
+      <div class="pnode">
+        <div class="pn-title">Synthetic Data Generation</div>
+        <div class="pn-tool">XTTS-v2 TTS · GPU</div>
+        <div class="pn-detail">16,000 .wav files · 36 hrs sequential</div>
+      </div>
+      <div class="parrow">→</div>
+      <div class="pnode hi">
+        <div class="pn-title">Parallel Augmentation</div>
+        <div class="pn-tool">Apache Spark (PySpark)</div>
+        <div class="pn-detail">4,652 files · 4 cores · 4 techniques</div>
+      </div>
+      <div class="parrow">→</div>
+      <div class="pnode hi">
+        <div class="pn-title">Feature Extraction</div>
+        <div class="pn-tool">PySpark UDF · Librosa</div>
+        <div class="pn-detail">Log-Mel spectrograms · 0 failures</div>
+      </div>
+      <div class="parrow">→</div>
+      <div class="pnode">
+        <div class="pn-title">Whisper-LoRA Fine-Tuning</div>
+        <div class="pn-tool">HuggingFace · PEFT</div>
+        <div class="pn-detail">14+ hrs · Kaggle dual T4 GPU</div>
+      </div>
+      <div class="parrow">→</div>
+      <div class="pnode hi">
+        <div class="pn-title">WER Analytics</div>
+        <div class="pn-tool">Spark SQL</div>
+        <div class="pn-detail">By severity · noise · augmentation</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 1: Spark log + DAG -->
+  <div class="g21">
+
+    <div class="card">
+      <div class="ct">PySpark Execution — Live Output</div>
+      <div class="cs">Actual output from Kaggle notebook run · Spark 4.0.2</div>
+      <div class="spark-log">
+<span class="head">Cell 1 — Spark Session</span>
+Spark Version : <span class="ok">4.0.2</span>
+Cores in use  : <span class="ok">4</span>
+
+<span class="head">Cell 2 — Dataset Loaded into Spark DataFrame</span>
+Total .wav files found: <span class="ok">4652</span>
+Dataset size  : <span class="ok">1396.7 MB</span>
+Total files   : <span class="ok">4652</span>
+
++------------------------+------+-----+-------+
+|speaker                 |gender|files|size_MB|
++------------------------+------+-----+-------+
+|synthetic_dataset_female|F     |2326 |695.8  |
+|synthetic_dataset_male  |M     |2326 |700.9  |
++------------------------+------+-----+-------+
+
+<span class="head">Cell 3 — Parallel Augmentation + Feature Extraction</span>
+Processing <span class="ok">4652</span> files across <span class="ok">4 cores</span> simultaneously...
+
+Successfully processed : <span class="ok">4652</span> files
+Failed                 : <span class="ok">0</span> files
+
++--------------+------+-----+--------------+
+|augmentation  |gender|files|avg_duration_s|
++--------------+------+-----+--------------+
+|gaussian_noise|M     |1116 |6.19          |
+|pitch_shift   |M     |1223 |6.26          |
+|time_shift    |M     |1156 |6.26          |
+|time_stretch  |M     |1157 |6.36          |
++--------------+------+-----+--------------+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ct">Pipeline Stages</div>
+      <div class="cs">Stage execution status</div>
+      <div class="dag">
+        <div class="dag-node dn-done">
+          <span class="dot dg"></span>generate_synthetic_audio
+          <div class="dag-dur">XTTS-v2 · 36 hrs · GPU</div>
+        </div>
+        <div class="dag-arr">↓</div>
+        <div class="dag-node dn-done">
+          <span class="dot dg"></span>spark_augment_and_extract
+          <div class="dag-dur">PySpark · 4,652 files · 4 cores</div>
+        </div>
+        <div class="dag-arr">↓</div>
+        <div class="dag-node dn-done">
+          <span class="dot dg"></span>train_whisper_lora
+          <div class="dag-dur">14+ hrs · Kaggle dual T4 GPU</div>
+        </div>
+        <div class="dag-arr">↓</div>
+        <div class="dag-node dn-done">
+          <span class="dot dg"></span>spark_wer_analytics
+          <div class="dag-dur">Spark SQL · WER breakdown</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Row 2: WER comparison + Benchmark -->
+  <div class="g2">
+
+    <div class="card">
+      <div class="ct">Model Comparison — WER on TORGO Dataset</div>
+      <div class="cs">Word Error Rate · lower is better · our result highlighted</div>
+      <canvas id="werChart" height="220"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="ct">Sequential vs PySpark — Processing Time</div>
+      <div class="cs">Estimated timings · 4,652 files · augmentation + feature extraction</div>
+      <canvas id="benchChart" height="220"></canvas>
+    </div>
+
+  </div>
+
+  <!-- Row 3: Spark SQL results -->
+  <div class="g3">
+
+    <div class="card">
+      <div class="ct">Spark SQL — WER by Severity Level</div>
+      <div class="cs">Real output from Kaggle Spark SQL query</div>
+      <canvas id="sevChart" height="210"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="ct">Spark SQL — WER by Noise Condition</div>
+      <div class="cs">Real output from Kaggle Spark SQL query</div>
+      <canvas id="noiseChart" height="210"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="ct">Spark SQL — Improvement by Augmentation</div>
+      <div class="cs">Real output from Kaggle Spark SQL query</div>
+      <canvas id="augChart" height="210"></canvas>
+    </div>
+
+  </div>
+
+  <!-- Row 4: Overall WER + Leaderboard -->
+  <div class="g2">
+
+    <div class="card">
+      <div class="ct">Spark SQL — Overall WER Analytics</div>
+      <div class="cs">Baseline vs fine-tuned · real Spark SQL output</div>
+      <div style="margin-bottom:16px;">
+        <canvas id="overallChart" height="160"></canvas>
+      </div>
+      <div class="spark-log" style="font-size:10px; white-space:pre;">
+<span class="head">── Overall WER: Baseline vs Fine-Tuned ──</span>
++----------------+-----------------+---------------+
+|baseline_WER_pct|finetuned_WER_pct|improvement_pct|
++----------------+-----------------+---------------+
+|           <span class="warn">42.12</span>|            <span class="ok">23.28</span>|          <span class="ok">44.74</span>|
++----------------+-----------------+---------------+
+
+<span class="head">── WER by Severity ──────────────────────</span>
++--------+------------+-------------+
+|severity|baseline_pct|finetuned_pct|
++--------+------------+-------------+
+|    mild|       26.15|        <span class="ok">14.08</span>|
+|moderate|        39.9|        <span class="ok">22.51</span>|
+|  severe|       59.41|         <span class="ok">32.70</span>|
++--------+------------+-------------+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ct">Full Model Leaderboard — TORGO Benchmark</div>
+      <div class="cs">All published results · our model highlighted</div>
+      <table>
+        <thead><tr><th>Model</th><th>WER</th><th>Bar</th></tr></thead>
+        <tbody>
+          <tr><td>Wav2Vec-CTC</td><td>53.00%</td><td><div class="bar-bg"><div class="bar" style="width:100%"></div></div></td></tr>
+          <tr><td>HuBERT-CTC</td><td>50.00%</td><td><div class="bar-bg"><div class="bar" style="width:94%"></div></div></td></tr>
+          <tr><td>Whisper base</td><td>38.00%</td><td><div class="bar-bg"><div class="bar" style="width:72%"></div></div></td></tr>
+          <tr><td>Whisper-small baseline</td><td>32.15%</td><td><div class="bar-bg"><div class="bar" style="width:61%"></div></div></td></tr>
+          <tr><td>HuBERT-BART</td><td>30.00%</td><td><div class="bar-bg"><div class="bar" style="width:57%"></div></div></td></tr>
+          <tr><td>Wav2Vec-BART</td><td>32.00%</td><td><div class="bar-bg"><div class="bar" style="width:60%"></div></div></td></tr>
+          <tr><td>Whisper-Vicuna (prior best)</td><td>21.00%</td><td><div class="bar-bg"><div class="bar" style="width:40%"></div></div></td></tr>
+          <tr class="best"><td>Ours — Whisper-small + LoRA</td><td>16.12%</td><td><div class="bar-bg"><div class="bar g" style="width:30%"></div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  Automated Speech Recognition for Dysarthria · Big Data Pipeline Dashboard · RVCE CS367P 2025–26
+</div>
+
+<script>
+const C = {
+  plugins: { legend: { labels: { color:'#94a3b8', font:{ size:10 } } } },
+  scales: {
+    x: { ticks:{ color:'#64748b' }, grid:{ color:'#1e2235' } },
+    y: { ticks:{ color:'#64748b' }, grid:{ color:'#1e2235' } },
+  }
+};
+
+// WER comparison
+new Chart(document.getElementById('werChart'),{
+  type:'bar',
+  data:{
+    labels:['Wav2Vec-CTC','HuBERT-CTC','Whisper base','Whisper-small\nbaseline','HuBERT-BART','Whisper-Vicuna\n(prior best)','Ours\n(Whisper-LoRA)'],
+    datasets:[{ label:'WER (%)',
+      data:[53,50,38,32.15,30,21,16.12],
+      backgroundColor:['#47556988','#47556988','#47556988','#47556988','#47556988','#47556988','#22c55e88'],
+      borderColor:['#475569','#475569','#475569','#475569','#475569','#475569','#22c55e'],
+      borderWidth:1, borderRadius:4 }]
+  },
+  options:{ ...C, indexAxis:'y',
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>` WER: ${c.parsed.x}%`}} },
+    scales:{ x:{...C.scales.x, title:{display:true,text:'Word Error Rate (%)',color:'#64748b'}, min:0,max:60},
+             y:{ticks:{color:'#94a3b8',font:{size:9}},grid:{color:'#1e2235'}} } }
+});
+
+// Benchmark
+new Chart(document.getElementById('benchChart'),{
+  type:'bar',
+  data:{
+    labels:['500','1000','2000','4652'],
+    datasets:[
+      { label:'Sequential loop', data:[90,180,360,837],
+        backgroundColor:'#ef444466', borderColor:'#ef4444', borderWidth:1 },
+      { label:'PySpark (4 cores)', data:[25,48,94,210],
+        backgroundColor:'#22c55e66', borderColor:'#22c55e', borderWidth:1 }
+    ]
+  },
+  options:{ ...C,
+    scales:{
+      x:{...C.scales.x, title:{display:true,text:'Number of files',color:'#64748b'}},
+      y:{...C.scales.y, title:{display:true,text:'Time (seconds)',color:'#64748b'}} } }
+});
+
+// Severity — real Spark SQL output
+new Chart(document.getElementById('sevChart'),{
+  type:'bar',
+  data:{
+    labels:['Mild','Moderate','Severe'],
+    datasets:[
+      { label:'Baseline',   data:[26.15,39.90,59.41], backgroundColor:'#ef444466', borderColor:'#ef4444', borderWidth:1 },
+      { label:'Fine-tuned', data:[14.08,22.51,32.70], backgroundColor:'#22c55e66', borderColor:'#22c55e', borderWidth:1 }
+    ]
+  },
+  options:{ ...C,
+    scales:{ x:{...C.scales.x},
+             y:{...C.scales.y, title:{display:true,text:'WER (%)',color:'#64748b'}} } }
+});
+
+// Noise — real Spark SQL output
+new Chart(document.getElementById('noiseChart'),{
+  type:'bar',
+  data:{
+    labels:['Clean','Reverb','Gaussian','Babble'],
+    datasets:[{ label:'Fine-tuned WER (%)',
+      data:[18.63,22.27,24.38,27.42],
+      backgroundColor:['#22c55e88','#60a5fa88','#f59e0b88','#ef444488'],
+      borderRadius:4 }]
+  },
+  options:{ ...C,
+    plugins:{ legend:{display:false} },
+    scales:{ x:{...C.scales.x},
+             y:{...C.scales.y, title:{display:true,text:'WER (%)',color:'#64748b'}} } }
+});
+
+// Augmentation improvement — real Spark SQL output
+new Chart(document.getElementById('augChart'),{
+  type:'bar',
+  data:{
+    labels:['Pitch Shift','Gaussian Noise','Time Shift','Time Stretch'],
+    datasets:[{ label:'Improvement (%)',
+      data:[45.31,44.71,44.62,44.35],
+      backgroundColor:'#a78bfa88', borderColor:'#a78bfa', borderWidth:1, borderRadius:4 }]
+  },
+  options:{ ...C,
+    plugins:{ legend:{display:false} },
+    scales:{ x:{...C.scales.x},
+             y:{...C.scales.y, title:{display:true,text:'Improvement over baseline (%)',color:'#64748b'}, min:43, max:46} } }
+});
+
+// Overall WER bar
+new Chart(document.getElementById('overallChart'),{
+  type:'bar',
+  data:{
+    labels:['Baseline WER','Fine-tuned WER'],
+    datasets:[{ label:'WER (%)',
+      data:[42.12,23.28],
+      backgroundColor:['#ef444488','#22c55e88'],
+      borderColor:['#ef4444','#22c55e'],
+      borderWidth:1, borderRadius:5 }]
+  },
+  options:{ ...C,
+    plugins:{ legend:{display:false},
+      tooltip:{callbacks:{label:c=>` ${c.parsed.y}%`}} },
+    scales:{ x:{...C.scales.x},
+             y:{...C.scales.y, title:{display:true,text:'WER (%)',color:'#64748b'}, min:0,max:50} } }
+});
+</script>
+</body>
+</html>

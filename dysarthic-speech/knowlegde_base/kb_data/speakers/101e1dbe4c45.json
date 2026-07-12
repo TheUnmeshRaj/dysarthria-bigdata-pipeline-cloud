@@ -1,0 +1,186 @@
+{
+  "speaker_id": "101e1dbe4c45",
+  "name": "unmesh",
+  "domain": "general",
+  "topics": [
+    "daily life",
+    "conversations",
+    "various topics"
+  ],
+  "vocabulary": [
+    {
+      "term": "Kubernetes",
+      "category": "domain_term",
+      "definition": "an open-source container orchestration system",
+      "aliases": [
+        "cube netties"
+      ],
+      "added_at": "2026-06-25T04:24:20.912703"
+    },
+    {
+      "term": "Patricia",
+      "category": "proper_noun",
+      "definition": "a female given name",
+      "aliases": [
+        "patria"
+      ],
+      "added_at": "2026-06-25T04:24:20.912726"
+    },
+    {
+      "term": "Juan",
+      "category": "proper_noun",
+      "definition": "a male given name",
+      "aliases": [
+        "one",
+        "won"
+      ],
+      "added_at": "2026-06-25T04:24:20.912744"
+    },
+    {
+      "term": "Therapy",
+      "category": "general",
+      "definition": "treatment intended to relieve or cure a disorder",
+      "aliases": [
+        "fair of peace"
+      ],
+      "added_at": "2026-06-25T04:24:20.912758"
+    },
+    {
+      "term": "Tom",
+      "category": "proper_noun",
+      "definition": "a male given name",
+      "aliases": [
+        "thom"
+      ],
+      "added_at": "2026-06-25T04:24:20.912767"
+    },
+    {
+      "term": "factually inaccurate",
+      "category": "general",
+      "definition": "not accurate or true",
+      "aliases": [
+        "inactual"
+      ],
+      "added_at": "2026-06-25T04:24:20.912777"
+    }
+  ],
+  "corrections": [
+    {
+      "id": "6761db44",
+      "stt_output": "ive",
+      "intended": "I've",
+      "occurrences": 1,
+      "confidence": 0.9,
+      "source": "llm_suggested",
+      "context_hint": "The STT model frequently failed to recognize contractions, transcribing 'I've' as 'ive'.",
+      "created_at": "2026-06-25T04:24:20.912582",
+      "last_seen": "2026-06-25T04:24:20.912585"
+    },
+    {
+      "id": "937847b2",
+      "stt_output": "patria",
+      "intended": "Patricia",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT model has difficulty with proper nouns, especially those with unique spellings or pronunciations.",
+      "created_at": "2026-06-25T04:24:20.912389",
+      "last_seen": "2026-06-25T04:24:20.912391"
+    },
+    {
+      "id": "5a1ead27",
+      "stt_output": "one watch tv",
+      "intended": "Juan watched TV",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT model often confuses similar-sounding words and phrases, leading to incorrect transcriptions of names and actions.",
+      "created_at": "2026-06-25T04:24:20.912418",
+      "last_seen": "2026-06-25T04:24:20.912420"
+    },
+    {
+      "id": "746adf67",
+      "stt_output": "all gave me a present",
+      "intended": "Paul gave me a present",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT model struggles with distinguishing between similar-sounding words, such as 'all' and 'Paul'.",
+      "created_at": "2026-06-25T04:24:20.912439",
+      "last_seen": "2026-06-25T04:24:20.912442"
+    },
+    {
+      "id": "4c807929",
+      "stt_output": "thom",
+      "intended": "Tom",
+      "occurrences": 1,
+      "confidence": 0.7,
+      "source": "llm_suggested",
+      "context_hint": "The STT model struggled with proper noun recognition, transcribing 'Tom' as 'thom'.",
+      "created_at": "2026-06-25T04:24:20.912521",
+      "last_seen": "2026-06-25T04:24:20.912525"
+    },
+    {
+      "id": "a144c6ca",
+      "stt_output": "thoubner",
+      "intended": "the oven bright green",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model struggles with uncommon phrases and word combinations, leading to incorrect transcriptions.",
+      "created_at": "2026-06-25T04:24:20.912336",
+      "last_seen": "2026-06-25T04:24:20.912344"
+    },
+    {
+      "id": "7fbacf24",
+      "stt_output": "fair of peace",
+      "intended": "Therapy",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model incorrectly transcribed 'Therapy' as 'fair of peace' due to phonetic similarity.",
+      "created_at": "2026-06-25T04:24:20.912469",
+      "last_seen": "2026-06-25T04:24:20.912472"
+    },
+    {
+      "id": "07fe1e58",
+      "stt_output": "inactual",
+      "intended": "factually inaccurate",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model had difficulty with vocabulary recognition, transcribing 'factually inaccurate' as 'inactual'.",
+      "created_at": "2026-06-25T04:24:20.912556",
+      "last_seen": "2026-06-25T04:24:20.912559"
+    },
+    {
+      "id": "0548193e",
+      "stt_output": "i am a little math",
+      "intended": "I am a little mad",
+      "occurrences": 1,
+      "confidence": 0.5,
+      "source": "llm_suggested",
+      "context_hint": "The STT model incorrectly transcribed 'mad' as 'math' due to phonetic similarity.",
+      "created_at": "2026-06-25T04:24:20.912622",
+      "last_seen": "2026-06-25T04:24:20.912626"
+    }
+  ],
+  "style": {
+    "formality": "casual",
+    "remove_fillers": true,
+    "filler_words": [
+      "um",
+      "uh",
+      "like",
+      "you know"
+    ],
+    "languages": [
+      "en"
+    ],
+    "common_phrases": [],
+    "preferred_spelling": "en-US",
+    "notes": "The speaker's style appears to be casual and conversational, with a wide range of topics discussed. The speaker's pronunciation and vocabulary are generally standard American English."
+  },
+  "created_at": "2026-06-25T04:24:20.912863",
+  "updated_at": "2026-06-25T04:24:20.913815"
+}

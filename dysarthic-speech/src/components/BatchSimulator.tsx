@@ -5,13 +5,16 @@ import { Upload, FileAudio, Play, CheckCircle2, Loader2, Database, AlertCircle }
 import { ACCEPTED_FILE_TYPES, formatFileSize } from '../utils/fileUtils';
 import { fadeInUp, staggerContainer } from '../animations/variants';
 
+import { transcribeAudio } from '../services/api';
+
 interface BatchFile {
   id: string;
   file: File;
   status: 'queued' | 'processing' | 'completed' | 'error';
   progress: number;
-  mockWer?: number;
-  mockTime?: number;
+  transcript?: string;
+  error?: string;
+  processingTime?: number;
 }
 
 export default function BatchSimulator() {
@@ -43,53 +46,43 @@ export default function BatchSimulator() {
     setCompletedCount(0);
     
     // Reset all files to queued
-    setFiles((prev) => prev.map(f => ({ ...f, status: 'queued', progress: 0, mockWer: undefined, mockTime: undefined })));
+    setFiles((prev) => prev.map(f => ({ ...f, status: 'queued', progress: 0, transcript: undefined, error: undefined, processingTime: undefined })));
 
-    // Process all files simultaneously (mocking parallel Spark processing)
-    const promises = files.map((batchFile) => {
-      return new Promise<void>((resolve) => {
-        // Random processing time between 1.5s and 4s
-        const totalTime = Math.floor(Math.random() * 2500) + 1500;
-        const steps = 10;
-        const interval = totalTime / steps;
+    // Process all files simultaneously through the Hugging Face API
+    const promises = files.map(async (batchFile) => {
+      setFiles(prev => prev.map(f => f.id === batchFile.id ? { ...f, status: 'processing', progress: 50 } : f));
+      
+      const startTime = Date.now();
+      try {
+        const response = await transcribeAudio(batchFile.file, batchFile.file.name);
+        const duration = Date.now() - startTime;
         
-        let currentStep = 0;
-        
-        setFiles(prev => prev.map(f => f.id === batchFile.id ? { ...f, status: 'processing' } : f));
-
-        const timer = setInterval(() => {
-          currentStep++;
-          const progress = Math.min((currentStep / steps) * 100, 100);
-          
-          setFiles((prev) => prev.map(f => {
-            if (f.id === batchFile.id) {
-              return { ...f, progress };
-            }
-            return f;
-          }));
-
-          if (currentStep >= steps) {
-            clearInterval(timer);
-            const mockWer = parseFloat((Math.random() * (22.5 - 14.1) + 14.1).toFixed(2));
-            
-            setFiles((prev) => prev.map(f => {
-              if (f.id === batchFile.id) {
-                return { 
-                  ...f, 
-                  status: 'completed', 
-                  progress: 100,
-                  mockWer,
-                  mockTime: totalTime
-                };
-              }
-              return f;
-            }));
-            
-            setCompletedCount(prev => prev + 1);
-            resolve();
+        setFiles(prev => prev.map(f => {
+          if (f.id === batchFile.id) {
+            return { 
+              ...f, 
+              status: 'completed', 
+              progress: 100,
+              transcript: response.transcript,
+              processingTime: duration
+            };
           }
-        }, interval);
-      });
+          return f;
+        }));
+      } catch (err: any) {
+        setFiles(prev => prev.map(f => {
+          if (f.id === batchFile.id) {
+            return { 
+              ...f, 
+              status: 'error', 
+              progress: 100,
+              error: err.message || 'Transcription failed'
+            };
+          }
+          return f;
+        }));
+      }
+      setCompletedCount(prev => prev + 1);
     });
 
     await Promise.all(promises);
@@ -242,13 +235,23 @@ export default function BatchSimulator() {
                     />
                   </div>
                   
-                  <div className="flex items-center justify-between text-[10px]">
-                    <span className="text-slate-500">{formatFileSize(f.file.size)}</span>
+                  <div className="flex flex-col gap-2 text-[10px]">
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-500">{formatFileSize(f.file.size)}</span>
+                      {f.status === 'completed' && f.processingTime && (
+                        <span className="font-mono text-slate-500">{f.processingTime}ms</span>
+                      )}
+                    </div>
                     
-                    {f.status === 'completed' && f.mockWer && (
-                      <span className="font-mono text-green-400 bg-green-500/10 px-1.5 py-0.5 rounded">
-                        WER: {f.mockWer}% ({f.mockTime}ms)
-                      </span>
+                    {f.status === 'completed' && f.transcript && (
+                      <div className="mt-1 p-2 bg-slate-900/50 rounded border border-green-500/20 text-green-400 font-medium">
+                        "{f.transcript}"
+                      </div>
+                    )}
+                    {f.status === 'error' && (
+                      <div className="mt-1 p-2 bg-red-500/10 rounded border border-red-500/20 text-red-400">
+                        {f.error || 'Failed'}
+                      </div>
                     )}
                     {f.status === 'processing' && (
                       <span className="text-blue-400 animate-pulse">Extracting features...</span>

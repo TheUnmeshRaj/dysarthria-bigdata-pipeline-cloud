@@ -494,7 +494,7 @@ export default function PipelineDashboard() {
         </div>
 
         <div className="glass-card p-5 border-l-4 border-l-red-500">
-          <div className="text-2xl font-bold text-red-400 font-mono">38.00%</div>
+          <div className="text-2xl font-bold text-red-400 font-mono">%</div>
           <div className="text-[10px] text-[var(--color-text-tertiary)] uppercase font-semibold tracking-wider mt-1">
             Baseline Whisper WER
           </div>

@@ -24,6 +24,7 @@ import EducationalSection from './components/EducationalSection';
 import ProjectDetails from './components/ProjectDetails';
 import KnowledgeBasePage from './components/KnowledgeBasePage';
 import PipelineDashboard from './components/PipelineDashboard';
+import BatchSimulator from './components/BatchSimulator';
 import { generateConfidenceScores } from './services/mockApi';
 import { checkRateLimit } from './utils/rateLimiter';
 
@@ -50,7 +51,7 @@ export default function App() {
   const { extractAudio, progress: ffmpegProgress } = useFFmpeg();
   const wordTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   
-  const [activePage, setActivePage] = useState<'transcribe' | 'knowledge-base' | 'pipeline-dashboard'>('transcribe');
+  const [activePage, setActivePage] = useState<'transcribe' | 'knowledge-base' | 'pipeline-dashboard' | 'batch-simulator'>('transcribe');
   const [showToast, setShowToast] = useState(false);
   const [visitCount, setVisitCount] = useState<number | null>(null);
   const reorderBufferRef = useRef<{
@@ -269,6 +270,8 @@ export default function App() {
           <KnowledgeBasePage />
         ) : activePage === 'pipeline-dashboard' ? (
           <PipelineDashboard />
+        ) : activePage === 'batch-simulator' ? (
+          <BatchSimulator />
         ) : (
           <>
             {/* Upload Zone */}

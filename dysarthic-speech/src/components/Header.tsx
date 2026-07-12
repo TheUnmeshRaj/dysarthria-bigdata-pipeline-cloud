@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Brain, Activity, Mic, BookOpen } from 'lucide-react';
+import { Brain, Activity, Mic, BookOpen, Database } from 'lucide-react';
 import { fadeInDown, staggerContainer, fadeIn } from '../animations/variants';
 
 // Floating particles for the header background
@@ -72,8 +72,8 @@ function NeuralMesh() {
 }
 
 interface HeaderProps {
-  activePage: 'transcribe' | 'knowledge-base' | 'pipeline-dashboard';
-  setActivePage: (page: 'transcribe' | 'knowledge-base' | 'pipeline-dashboard') => void;
+  activePage: 'transcribe' | 'knowledge-base' | 'pipeline-dashboard' | 'batch-simulator';
+  setActivePage: (page: 'transcribe' | 'knowledge-base' | 'pipeline-dashboard' | 'batch-simulator') => void;
 }
 
 export default function Header({ activePage, setActivePage }: HeaderProps) {
@@ -108,12 +108,12 @@ export default function Header({ activePage, setActivePage }: HeaderProps) {
             }}
             transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <Activity className="w-7 h-7 text-[var(--color-accent-purple)]" />
+            <Activity className="w-7 h-7 text-blue-400" />
           </motion.div>
         </div>
 
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4 leading-tight">
-          <span className="gradient-text">Automated Speech Recognition for Dysarthria</span>
+          <span className="gradient-text text-blue-500 font-bold">Automated Speech Recognition for Dysarthria</span>
         </h1>
         <motion.p
           variants={fadeIn}
@@ -146,6 +146,17 @@ export default function Header({ activePage, setActivePage }: HeaderProps) {
         >
           <BookOpen className="w-4 h-4" />
           Knowledge Base
+        </button>
+        <button
+          onClick={() => setActivePage('batch-simulator')}
+          className={`px-5 py-3 text-sm font-semibold tracking-wide border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
+            activePage === 'batch-simulator'
+              ? 'border-blue-400 text-blue-400 bg-blue-950/20 rounded-t-lg'
+              : 'border-transparent text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)] hover:bg-slate-800/20 rounded-t-lg'
+          }`}
+        >
+          <Database className="w-4 h-4" />
+          Batch Simulator
         </button>
         <button
           onClick={() => setActivePage('pipeline-dashboard')}

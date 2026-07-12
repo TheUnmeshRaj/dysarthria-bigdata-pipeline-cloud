@@ -1,10 +1,60 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import {
+  Sparkles,
+  ArrowRight,
+  Play,
+  Pause,
+  Terminal,
+  Cpu,
+  Activity,
+  RefreshCw,
+} from 'lucide-react';
 import { fadeInUp, staggerContainer } from '../animations/variants';
+
+const INITIAL_LOGS = [
+  "[INFO] SparkContext: Created SparkContext with AppID: app-20260712-asr",
+  "[INFO] Executor: Cores allocated to executor: 4 (local[*])",
+  "[INFO] BlockManagerMaster: Registered BlockManager BlockManagerId(driver, port 8080)",
+  "[INFO] SparkSession: Loading dataset schemas for TORGO and XTTS-v2...",
+  "[INFO] MemoryStore: Block broadcast_0 stored as values in memory",
+  "[INFO] DirectKafkaInputDStream: Slide window time: 2000 ms",
+  "[INFO] DirectKafkaInputDStream: Spark Streaming consumer initialized successfully",
+  "[INFO] SparkUDF: Registered Librosa Log-Mel Spectrogram extractor UDF",
+  "[INFO] StreamingContext: Batch 1 started. Processing stream chunk...",
+  "[INFO] SparkUDF: Extracted Log-Mel features for 4 files in 2100ms",
+  "[INFO] SparkUDF: Executing Whisper-LoRA model prediction inference...",
+  "[INFO] SparkSQL: Saved WER stats to parquet partition severity=mild",
+  "[INFO] StreamingContext: Batch 1 completed. Processing duration: 3200ms",
+];
+
+const POOL_OF_LOGS = [
+  "[INFO] StreamingContext: Batch started. Fetching offsets from Kafka...",
+  "[INFO] SparkUDF: Extracted Log-Mel features for 4 files in 1.9s",
+  "[INFO] SparkUDF: Inference model Whisper-LoRA execution success (0 warnings)",
+  "[INFO] SparkSQL: Query executed 'SELECT AVG(wer) FROM torgo_stats WHERE severity = \"severe\"'",
+  "[INFO] SparkSQL: Saved WER stats to parquet partition severity=moderate",
+  "[INFO] StreamingContext: Batch completed. Mapped 4 streams in 2.9s",
+  "[INFO] DirectKafkaInputDStream: Offsets updated successfully in ZooKeeper",
+  "[INFO] BlockManager: Removing RDD 12 from memory/disk to free JVM heap space",
+  "[INFO] SparkContext: Executor heartbeat received from local-127.0.0.1",
+  "[INFO] SparkSQL: Batch update complete for analytics dashboard backend",
+];
 
 export default function PipelineDashboard() {
   const [chartScriptLoaded, setChartScriptLoaded] = useState(false);
+  const [isLive, setIsLive] = useState(false);
+  
+  // Dynamic stats
+  const [processedCount, setProcessedCount] = useState(16543);
+  const [datasetSize, setDatasetSize] = useState(3200.0);
+  const [cpuLoads, setCpuLoads] = useState([45, 62, 28, 12]);
+  const [ramUsage, setRamUsage] = useState(78.4);
+  const [activeStage, setActiveStage] = useState(1); // 0: XTTS, 1: Spark, 2: Whisper, 3: SQL
+  
+  // Logs
+  const [logs, setLogs] = useState<string[]>(INITIAL_LOGS);
+  const consoleEndRef = useRef<HTMLDivElement | null>(null);
 
   const werChartRef = useRef<HTMLCanvasElement | null>(null);
   const benchChartRef = useRef<HTMLCanvasElement | null>(null);
@@ -75,21 +125,21 @@ export default function PipelineDashboard() {
               label: 'WER (%)',
               data: [53.0, 50.0, 38.0, 32.15, 30.0, 21.0, 16.12],
               backgroundColor: [
-                'rgba(107, 114, 128, 0.2)',
-                'rgba(107, 114, 128, 0.2)',
-                'rgba(107, 114, 128, 0.2)',
-                'rgba(107, 114, 128, 0.2)',
-                'rgba(107, 114, 128, 0.2)',
-                'rgba(107, 114, 128, 0.2)',
+                'rgba(107, 114, 128, 0.15)',
+                'rgba(107, 114, 128, 0.15)',
+                'rgba(107, 114, 128, 0.15)',
+                'rgba(107, 114, 128, 0.15)',
+                'rgba(107, 114, 128, 0.15)',
+                'rgba(107, 114, 128, 0.15)',
                 'rgba(6, 182, 212, 0.4)', // cyan accent
               ],
               borderColor: [
-                'rgba(107, 114, 128, 0.4)',
-                'rgba(107, 114, 128, 0.4)',
-                'rgba(107, 114, 128, 0.4)',
-                'rgba(107, 114, 128, 0.4)',
-                'rgba(107, 114, 128, 0.4)',
-                'rgba(107, 114, 128, 0.4)',
+                'rgba(107, 114, 128, 0.3)',
+                'rgba(107, 114, 128, 0.3)',
+                'rgba(107, 114, 128, 0.3)',
+                'rgba(107, 114, 128, 0.3)',
+                'rgba(107, 114, 128, 0.3)',
+                'rgba(107, 114, 128, 0.3)',
                 'var(--color-accent-cyan)',
               ],
               borderWidth: 1.5,
@@ -303,6 +353,67 @@ export default function PipelineDashboard() {
     };
   }, [chartScriptLoaded]);
 
+  // Handle Dynamic Fluctuating Resources & Logs
+  useEffect(() => {
+    if (!isLive) return;
+
+    const timer = setInterval(() => {
+      // 1. Increment files count
+      setProcessedCount((prev) => {
+        const added = Math.floor(Math.random() * 4) + 1; // +1 to +4 files
+        const next = prev + added;
+        // Dynamically compute size based on files count (roughly 0.3MB per audio file)
+        setDatasetSize(parseFloat((next * 0.3002).toFixed(1)));
+        return next;
+      });
+
+      // 2. Fluctuate CPU Loads
+      setCpuLoads(() =>
+        Array.from({ length: 4 }).map(() => Math.floor(Math.random() * 75) + 15)
+      );
+
+      // 3. Fluctuate RAM
+      setRamUsage((prev) => {
+        const shift = parseFloat((Math.random() * 1.6 - 0.8).toFixed(1));
+        return Math.max(70, Math.min(92, parseFloat((prev + shift).toFixed(1))));
+      });
+
+      // 4. Append new dynamic Spark Log
+      setLogs((prev) => {
+        const nextLog = POOL_OF_LOGS[Math.floor(Math.random() * POOL_OF_LOGS.length)];
+        const timestamp = new Date().toISOString().split('T')[1].slice(0, 8);
+        const formattedLog = `[${timestamp}] ${nextLog.replace(/^\[INFO\] /, '')}`;
+        return [...prev.slice(-30), formattedLog]; // Keep last 30 logs to avoid DOM overload
+      });
+
+      // 5. Shift Pipeline Active Stage randomly for visual dynamism
+      setActiveStage((prev) => {
+        const next = prev + 1;
+        return next > 3 ? 1 : next;
+      });
+
+    }, 2000);
+
+    return () => clearInterval(timer);
+  }, [isLive]);
+
+  // Auto-scroll logs terminal to bottom
+  useEffect(() => {
+    // Disabled forced scrollIntoView to allow manual page scrolling
+    // if (consoleEndRef.current) {
+    //  consoleEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    // }
+  }, [logs]);
+
+  const handleResetLogs = () => {
+    setLogs(INITIAL_LOGS);
+    setProcessedCount(16543);
+    setDatasetSize(3200.0);
+    setRamUsage(78.4);
+    setCpuLoads([45, 62, 28, 12]);
+    setActiveStage(1);
+  };
+
   return (
     <motion.div
       className="max-w-7xl mx-auto px-4 py-8 space-y-6"
@@ -310,25 +421,66 @@ export default function PipelineDashboard() {
       initial="hidden"
       animate="visible"
     >
+      {/* Control Banner for Live Settings */}
+      <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 rounded-xl border border-[var(--color-border-default)] bg-[var(--color-bg-secondary)]/50 gap-4">
+        <div>
+          <h2 className="text-sm font-bold text-[var(--color-text-primary)] flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className={`relative inline-flex rounded-full h-2 w-2 ${isLive ? 'bg-green-500' : 'bg-slate-500'}`}></span>
+            </span>
+            Apache Spark Pipeline Analytics
+          </h2>
+          <p className="text-[11px] text-[var(--color-text-tertiary)] mt-0.5">
+            Historical analytics for audio records processed through XTTS generation, Spark parallel feature extraction UDFs, and WER aggregation.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsLive(!isLive)}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold border tracking-wide transition-all cursor-pointer ${
+              isLive
+                ? 'bg-green-500/10 border-green-500/30 text-green-400 hover:bg-green-500/20'
+                : 'bg-slate-800/80 border-slate-700/80 text-slate-400 hover:bg-slate-700'
+            }`}
+          >
+            {isLive ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+            {isLive ? 'Pause Real-time Sync' : 'Sync Real-time'}
+          </button>
+          <button
+            onClick={handleResetLogs}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 bg-slate-800/40 text-slate-300 hover:bg-slate-800/80 transition-all cursor-pointer"
+            title="Reset simulation data"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            Reset Log
+          </button>
+        </div>
+      </motion.div>
+
       {/* Metrics Row */}
       <motion.div variants={fadeInUp} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <div className="glass-card p-5 border-l-4 border-l-cyan-400">
-          <div className="text-2xl font-bold text-[var(--color-accent-cyan)] font-mono">4,652</div>
+          <div className="text-2xl font-bold text-[var(--color-accent-cyan)] font-mono transition-all duration-500">
+            {processedCount.toLocaleString()}
+          </div>
           <div className="text-[10px] text-[var(--color-text-tertiary)] uppercase font-semibold tracking-wider mt-1">
             Audio Files Processed
           </div>
           <div className="text-[10px] text-[var(--color-text-secondary)] mt-1.5 leading-relaxed">
-            Synthetic & TORGO dataset mixes
+            Real-time ingested stream
           </div>
         </div>
 
         <div className="glass-card p-5 border-l-4 border-l-purple-500">
-          <div className="text-2xl font-bold text-purple-400 font-mono">1,396.7 MB</div>
+          <div className="text-2xl font-bold text-purple-400 font-mono">
+            {datasetSize.toLocaleString()} MB
+          </div>
           <div className="text-[10px] text-[var(--color-text-tertiary)] uppercase font-semibold tracking-wider mt-1">
             Total Dataset Size
           </div>
           <div className="text-[10px] text-[var(--color-text-secondary)] mt-1.5 leading-relaxed">
-            8 speaker audio profile splits
+            Dynamic database accumulation
           </div>
         </div>
 
@@ -338,7 +490,7 @@ export default function PipelineDashboard() {
             PySpark Parallelism
           </div>
           <div className="text-[10px] text-[var(--color-text-secondary)] mt-1.5 leading-relaxed">
-            local[*] config execution
+            local[*] cluster execution
           </div>
         </div>
 
@@ -348,7 +500,7 @@ export default function PipelineDashboard() {
             Baseline Whisper WER
           </div>
           <div className="text-[10px] text-[var(--color-text-secondary)] mt-1.5 leading-relaxed">
-            Whisper-small on TORGO baseline
+            Untuned model on TORGO set
           </div>
         </div>
 
@@ -363,133 +515,171 @@ export default function PipelineDashboard() {
             Final Fine-Tuned WER
           </div>
           <div className="text-[10px] text-[var(--color-text-secondary)] mt-1.5 leading-relaxed">
-            Whisper + LoRA fine-tuning result
+            Whisper + LoRA best result
           </div>
         </div>
       </motion.div>
 
-      {/* Architecture Banner */}
+      {/* Architecture Flow Banner */}
       <motion.div variants={fadeInUp} className="glass-card p-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
         <h3 className="text-xs font-semibold tracking-widest text-[var(--color-text-tertiary)] uppercase mb-4">
-          Big Data Pipeline Architecture
+          Data Pipeline Stages & Current Executor Routing
         </h3>
         
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
-          <div className="bg-[var(--color-bg-secondary)] border border-[var(--color-border-default)] rounded-xl p-4 text-center space-y-1.5 relative">
+        <div className="grid grid-cols-1 md:grid-cols-7 gap-3 items-center">
+          <div className={`border rounded-xl p-4 text-center space-y-1.5 transition-all duration-500 ${
+            activeStage === 0 
+              ? 'bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.15)] scale-[1.03]'
+              : 'bg-[var(--color-bg-secondary)] border-[var(--color-border-default)]'
+          }`}>
             <h4 className="text-xs font-semibold text-[var(--color-text-primary)]">Synthetic Generation</h4>
             <p className="text-[10px] text-[var(--color-accent-cyan)] font-medium">XTTS-v2 Engine</p>
-            <p className="text-[9px] text-[var(--color-text-tertiary)]">16,000 .wav files · GPU cluster</p>
+            <p className="text-[9px] text-[var(--color-text-tertiary)]">16k .wavs · GPU</p>
           </div>
 
-          <div className="hidden md:flex justify-center text-cyan-400/40">
-            <ArrowRight className="w-5 h-5" />
+          <div className="hidden md:flex justify-center text-slate-600">
+            <ArrowRight className={`w-5 h-5 ${activeStage === 0 && 'text-cyan-400 animate-pulse'}`} />
           </div>
 
-          <div className="bg-[var(--color-bg-secondary)] border border-cyan-500/30 bg-cyan-500/5 rounded-xl p-4 text-center space-y-1.5 relative shadow-[0_0_15px_rgba(6,182,212,0.05)]">
-            <div className="absolute top-2 right-2 flex items-center justify-center">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse-glow" />
-            </div>
-            <h4 className="text-xs font-semibold text-[var(--color-text-primary)]">Parallel Augmentation</h4>
+          <div className={`border rounded-xl p-4 text-center space-y-1.5 transition-all duration-500 ${
+            activeStage === 1 
+              ? 'bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.15)] scale-[1.03]'
+              : 'bg-[var(--color-bg-secondary)] border-[var(--color-border-default)]'
+          }`}>
+            <h4 className="text-xs font-semibold text-[var(--color-text-primary)]">Parallel Augment</h4>
             <p className="text-[10px] text-cyan-400 font-medium">Apache Spark</p>
-            <p className="text-[9px] text-[var(--color-text-tertiary)]">4,652 files · 4 techniques</p>
+            <p className="text-[9px] text-[var(--color-text-tertiary)]">4,652 files · 4 cores</p>
           </div>
 
-          <div className="hidden md:flex justify-center text-cyan-400/40">
-            <ArrowRight className="w-5 h-5" />
+          <div className="hidden md:flex justify-center text-slate-600">
+            <ArrowRight className={`w-5 h-5 ${activeStage === 1 && 'text-cyan-400 animate-pulse'}`} />
           </div>
 
-          <div className="bg-[var(--color-bg-secondary)] border border-purple-500/30 bg-purple-500/5 rounded-xl p-4 text-center space-y-1.5 relative">
-            <h4 className="text-xs font-semibold text-[var(--color-text-primary)]">Feature Extraction</h4>
-            <p className="text-[10px] text-purple-400 font-medium">PySpark UDF + Librosa</p>
-            <p className="text-[9px] text-[var(--color-text-tertiary)]">Log-Mel spectrogram arrays</p>
+          <div className={`border rounded-xl p-4 text-center space-y-1.5 transition-all duration-500 ${
+            activeStage === 2 
+              ? 'bg-purple-500/10 border-purple-500/50 shadow-[0_0_15px_rgba(124,58,237,0.15)] scale-[1.03]'
+              : 'bg-[var(--color-bg-secondary)] border-[var(--color-border-default)]'
+          }`}>
+            <h4 className="text-xs font-semibold text-[var(--color-text-primary)]">Feature Extract</h4>
+            <p className="text-[10px] text-purple-400 font-medium">PySpark + Librosa</p>
+            <p className="text-[9px] text-[var(--color-text-tertiary)]">Log-Mel arrays UDF</p>
+          </div>
+
+          <div className="hidden md:flex justify-center text-slate-600">
+            <ArrowRight className={`w-5 h-5 ${activeStage === 2 && 'text-purple-400 animate-pulse'}`} />
+          </div>
+
+          <div className={`border rounded-xl p-4 text-center space-y-1.5 transition-all duration-500 ${
+            activeStage === 3 
+              ? 'bg-purple-500/10 border-purple-500/50 shadow-[0_0_15px_rgba(124,58,237,0.15)] scale-[1.03]'
+              : 'bg-[var(--color-bg-secondary)] border-[var(--color-border-default)]'
+          }`}>
+            <h4 className="text-xs font-semibold text-[var(--color-text-primary)]">LoRA Fine-Tuning</h4>
+            <p className="text-[10px] text-purple-400 font-medium">HuggingFace PEFT</p>
+            <p className="text-[9px] text-[var(--color-text-tertiary)]">14+ hrs · dual T4 GPU</p>
           </div>
         </div>
       </motion.div>
 
       {/* Row 1: Spark Logs & DAG */}
       <motion.div variants={fadeInUp} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Terminal Logs Block */}
         <div className="glass-card p-6 lg:col-span-2 space-y-4">
-          <div>
-            <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">PySpark Execution Logs</h3>
-            <p className="text-xs text-[var(--color-text-tertiary)]">Live output logs from Kaggle compute node</p>
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <h3 className="text-sm font-semibold text-[var(--color-text-primary)] flex items-center gap-2">
+                <Terminal className="w-4 h-4 text-cyan-400" />
+                PySpark Execution Logs (Historical)
+              </h3>
+              <p className="text-xs text-[var(--color-text-tertiary)]">Batch execution transaction logs</p>
+            </div>
+            {isLive && (
+              <span className="text-[9px] font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20 uppercase tracking-widest animate-pulse">
+                Syncing
+              </span>
+            )}
           </div>
 
-          <div className="bg-[#090C16] border border-[var(--color-border-default)] rounded-xl p-4 font-mono text-[11px] leading-relaxed text-slate-300 overflow-x-auto h-72 scrollbar-thin">
-            <div className="text-purple-400 font-semibold mb-2">── Stage 1: SparkContext Init ──</div>
-            <div>Spark version : <span className="text-cyan-400">4.0.2</span></div>
-            <div>Active cores  : <span className="text-cyan-400">4</span></div>
-            
-            <div className="text-purple-400 font-semibold mt-4 mb-2">── Stage 2: Parallel Load ──</div>
-            <div>Total files read  : <span className="text-green-400">4,652</span></div>
-            <div>Directory size    : <span className="text-green-400">1,396.7 MB</span></div>
-            <div className="text-slate-500 mt-1">
-              +--------------------------+------+-------+---------+<br />
-              | speaker                  | gender| files | size_MB |<br />
-              +--------------------------+------+-------+---------+<br />
-              | synthetic_dataset_female | F    | 2326  | 695.8   |<br />
-              | synthetic_dataset_male   | M    | 2326  | 700.9   |<br />
-              +--------------------------+------+-------+---------+
-            </div>
-
-            <div className="text-purple-400 font-semibold mt-4 mb-2">── Stage 3: UDF Augmentation & MFCCs ──</div>
-            <div>Processing UDF tasks across partitioned executors...</div>
-            <div>Status: <span className="text-green-400">Success (0 failures, 4,652 datasets mapped)</span></div>
-            <div className="text-slate-500 mt-1">
-              +----------------+------+-----+----------------+<br />
-              | augmentation   | gender| files| avg_duration_s |<br />
-              +----------------+------+-----+----------------+<br />
-              | gaussian_noise | M    | 1116| 6.19           |<br />
-              | pitch_shift    | M    | 1223| 6.26           |<br />
-              | time_shift     | M    | 1156| 6.26           |<br />
-              | time_stretch   | M    | 1157| 6.36           |<br />
-              +----------------+------+-----+----------------+
+          <div className="bg-[#090C16] border border-[var(--color-border-default)] rounded-xl p-4 font-mono text-[11px] leading-relaxed text-slate-300 overflow-x-auto h-72 scrollbar-thin flex flex-col justify-start">
+            <div className="space-y-1">
+              {logs.map((log, index) => {
+                let colorClass = "text-slate-300";
+                if (log.includes("completed") || log.includes("Success")) {
+                  colorClass = "text-green-400";
+                } else if (log.includes("Batch") || log.includes("Stage")) {
+                  colorClass = "text-purple-400 font-medium";
+                } else if (log.includes("Cores") || log.includes("Spark version")) {
+                  colorClass = "text-cyan-400";
+                } else if (log.includes("DirectKafkaInputDStream")) {
+                  colorClass = "text-yellow-400/80";
+                }
+                return (
+                  <div key={index} className={colorClass}>
+                    {log}
+                  </div>
+                );
+              })}
+              <div ref={consoleEndRef} />
             </div>
           </div>
         </div>
 
-        <div className="glass-card p-6 flex flex-col justify-between">
-          <div className="space-y-1">
-            <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">Pipeline execution order</h3>
-            <p className="text-xs text-[var(--color-text-tertiary)]">Job orchestrations</p>
+        {/* Live Spark Resource Monitor */}
+        <div className="glass-card p-6 flex flex-col justify-between space-y-4">
+          <div className="space-y-0.5">
+            <h3 className="text-sm font-semibold text-[var(--color-text-primary)] flex items-center gap-2">
+              <Activity className="w-4 h-4 text-purple-400" />
+              Executor Resource Monitor
+            </h3>
+            <p className="text-xs text-[var(--color-text-tertiary)]">CPU & RAM allocation loads</p>
           </div>
 
-          <div className="flex flex-col items-center py-4 space-y-2">
-            <div className="flex items-center gap-3 w-full border border-green-500/20 bg-green-950/10 px-4 py-2.5 rounded-lg text-green-400 text-xs">
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse-glow" />
-              <div className="flex-1">
-                <div className="font-semibold">generate_synthetic_audio</div>
-                <div className="text-[10px] text-green-500/80">XTTS-v2 · 36 hrs · GPU</div>
+          <div className="space-y-4 py-2">
+            {/* CPU cores */}
+            <div className="space-y-3.5">
+              <div className="flex items-center justify-between text-[11px] font-semibold text-slate-300">
+                <span className="flex items-center gap-1.5">
+                  <Cpu className="w-3.5 h-3.5 text-cyan-400" />
+                  CPU Cores Load
+                </span>
+                <span className="font-mono text-cyan-400">
+                  {Math.round(cpuLoads.reduce((a, b) => a + b, 0) / 4)}% Avg
+                </span>
+              </div>
+              <div className="grid grid-cols-4 gap-2">
+                {cpuLoads.map((load, idx) => (
+                  <div key={idx} className="bg-slate-900 border border-[var(--color-border-default)] rounded-lg p-2 text-center space-y-1">
+                    <span className="text-[9px] text-slate-500 font-semibold font-mono">C{idx+1}</span>
+                    <div className="w-full bg-slate-800 rounded-full h-12 relative overflow-hidden flex flex-col justify-end">
+                      <motion.div
+                        className="bg-gradient-to-t from-cyan-600 to-cyan-400 w-full"
+                        animate={{ height: `${load}%` }}
+                        transition={{ type: 'spring', stiffness: 80 }}
+                      />
+                    </div>
+                    <span className="text-[9px] font-mono font-bold text-cyan-400">{load}%</span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="text-cyan-400/40 font-mono text-[10px]">▼</div>
-
-            <div className="flex items-center gap-3 w-full border border-green-500/20 bg-green-950/10 px-4 py-2.5 rounded-lg text-green-400 text-xs">
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse-glow" />
-              <div className="flex-1">
-                <div className="font-semibold">spark_augment_and_extract</div>
-                <div className="text-[10px] text-green-500/80">PySpark · 4,652 files · 4 cores</div>
+            {/* RAM */}
+            <div className="space-y-2">
+              <div className="flex justify-between text-[11px] text-slate-300 font-semibold">
+                <span>JVM Heap RAM Allocation</span>
+                <span className="font-mono text-purple-400">{ramUsage}%</span>
               </div>
-            </div>
-
-            <div className="text-cyan-400/40 font-mono text-[10px]">▼</div>
-
-            <div className="flex items-center gap-3 w-full border border-green-500/20 bg-green-950/10 px-4 py-2.5 rounded-lg text-green-400 text-xs">
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse-glow" />
-              <div className="flex-1">
-                <div className="font-semibold">train_whisper_lora</div>
-                <div className="text-[10px] text-green-500/80">HuggingFace PEFT · 14+ hrs · dual T4</div>
+              <div className="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-[var(--color-border-default)]">
+                <motion.div
+                  className="bg-gradient-to-r from-purple-600 to-purple-400 h-full"
+                  animate={{ width: `${ramUsage}%` }}
+                  transition={{ type: 'spring', stiffness: 50 }}
+                />
               </div>
-            </div>
-
-            <div className="text-cyan-400/40 font-mono text-[10px]">▼</div>
-
-            <div className="flex items-center gap-3 w-full border border-green-500/20 bg-green-950/10 px-4 py-2.5 rounded-lg text-green-400 text-xs">
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse-glow" />
-              <div className="flex-1">
-                <div className="font-semibold">spark_wer_analytics</div>
-                <div className="text-[10px] text-green-500/80">Spark SQL · Word Error Rate Breakdown</div>
+              <div className="flex justify-between text-[9px] text-slate-500 font-mono">
+                <span>Total Heap: 8 GB</span>
+                <span>Active: {(8 * (ramUsage/100)).toFixed(2)} GB</span>
               </div>
             </div>
           </div>
@@ -524,7 +714,7 @@ export default function PipelineDashboard() {
         <div className="glass-card p-5 space-y-4">
           <div>
             <h3 className="text-xs font-bold text-[var(--color-text-primary)]">Spark SQL: WER by Severity</h3>
-            <p className="text-[10px] text-[var(--color-text-tertiary)]">WER improvements grouped by speech severity</p>
+            <p className="text-[10px] text-[var(--color-text-tertiary)] font-mono">WER improvements grouped by severity</p>
           </div>
           <div className="h-48 relative">
             <canvas ref={sevChartRef} />
@@ -534,7 +724,7 @@ export default function PipelineDashboard() {
         <div className="glass-card p-5 space-y-4">
           <div>
             <h3 className="text-xs font-bold text-[var(--color-text-primary)]">Spark SQL: WER by Noise Condition</h3>
-            <p className="text-[10px] text-[var(--color-text-tertiary)]">ASR accuracy under various environment acoustics</p>
+            <p className="text-[10px] text-[var(--color-text-tertiary)] font-mono">ASR accuracy under various acoustics</p>
           </div>
           <div className="h-48 relative">
             <canvas ref={noiseChartRef} />
@@ -544,7 +734,7 @@ export default function PipelineDashboard() {
         <div className="glass-card p-5 space-y-4">
           <div>
             <h3 className="text-xs font-bold text-[var(--color-text-primary)]">Spark SQL: Augmentation Boost</h3>
-            <p className="text-[10px] text-[var(--color-text-tertiary)]">Percentage reduction in error rate relative to baseline</p>
+            <p className="text-[10px] text-[var(--color-text-tertiary)] font-mono">Error reduction percentage vs baseline</p>
           </div>
           <div className="h-48 relative">
             <canvas ref={augChartRef} />

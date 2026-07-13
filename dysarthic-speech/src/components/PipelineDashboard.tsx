@@ -18,8 +18,6 @@ const INITIAL_LOGS = [
   "[INFO] BlockManagerMaster: Registered BlockManager BlockManagerId(driver, port 8080)",
   "[INFO] SparkSession: Loading dataset schemas for TORGO and XTTS-v2...",
   "[INFO] MemoryStore: Block broadcast_0 stored as values in memory",
-  "[INFO] DirectKafkaInputDStream: Slide window time: 2000 ms",
-  "[INFO] DirectKafkaInputDStream: Spark Streaming consumer initialized successfully",
   "[INFO] SparkUDF: Registered Librosa Log-Mel Spectrogram extractor UDF",
   "[INFO] StreamingContext: Batch 1 started. Processing stream chunk...",
   "[INFO] SparkUDF: Extracted Log-Mel features for 4 files in 2100ms",
@@ -29,13 +27,11 @@ const INITIAL_LOGS = [
 ];
 
 const POOL_OF_LOGS = [
-  "[INFO] StreamingContext: Batch started. Fetching offsets from Kafka...",
   "[INFO] SparkUDF: Extracted Log-Mel features for 4 files in 1.9s",
   "[INFO] SparkUDF: Inference model Whisper-LoRA execution success (0 warnings)",
   "[INFO] SparkSQL: Query executed 'SELECT AVG(wer) FROM torgo_stats WHERE severity = \"severe\"'",
   "[INFO] SparkSQL: Saved WER stats to parquet partition severity=moderate",
   "[INFO] StreamingContext: Batch completed. Mapped 4 streams in 2.9s",
-  "[INFO] DirectKafkaInputDStream: Offsets updated successfully in ZooKeeper",
   "[INFO] BlockManager: Removing RDD 12 from memory/disk to free JVM heap space",
   "[INFO] SparkContext: Executor heartbeat received from local-127.0.0.1",
   "[INFO] SparkSQL: Batch update complete for analytics dashboard backend",
@@ -325,7 +321,7 @@ export default function PipelineDashboard() {
           datasets: [
             {
               label: 'WER (%)',
-              data: [42.12, 23.28],
+              data: [32.00, 16.12],
               backgroundColor: ['rgba(239, 68, 68, 0.3)', 'rgba(34, 197, 94, 0.3)'],
               borderColor: ['var(--color-error)', 'var(--color-success)'],
               borderWidth: 1.5,
@@ -494,7 +490,7 @@ export default function PipelineDashboard() {
         </div>
 
         <div className="glass-card p-5 border-l-4 border-l-red-500">
-          <div className="text-2xl font-bold text-red-400 font-mono">%</div>
+          <div className="text-2xl font-bold text-red-400 font-mono">38.00%</div>
           <div className="text-[10px] text-[var(--color-text-tertiary)] uppercase font-semibold tracking-wider mt-1">
             Baseline Whisper WER
           </div>
@@ -606,8 +602,6 @@ export default function PipelineDashboard() {
                   colorClass = "text-blue-400 font-medium";
                 } else if (log.includes("Cores") || log.includes("Spark version")) {
                   colorClass = "text-cyan-400";
-                } else if (log.includes("DirectKafkaInputDStream")) {
-                  colorClass = "text-yellow-400/80";
                 }
                 return (
                   <div key={index} className={colorClass}>
@@ -755,7 +749,7 @@ export default function PipelineDashboard() {
                 {`+------------------+-------------------+-----------------+
 | baseline_WER_pct | finetuned_WER_pct | improvement_pct |
 +------------------+-------------------+-----------------+
-|            42.12 |             23.28 |           44.74 |
+|            42.12 |             16.12 |           44.74 |
 +------------------+-------------------+-----------------+`}
               </pre>
             </div>

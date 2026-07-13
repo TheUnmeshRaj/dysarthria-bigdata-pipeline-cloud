@@ -124,49 +124,49 @@ export default function Header({ activePage, setActivePage }: HeaderProps) {
       </motion.div>
 
       {/* Navigation Tabs */}
-      <div className="relative z-10 flex justify-center gap-2 pb-0 px-6">
+      <div className="relative z-10 flex flex-wrap justify-center gap-2 pb-0 px-2 md:px-6">
         <button
           onClick={() => setActivePage('transcribe')}
-          className={`px-5 py-3 text-sm font-semibold tracking-wide border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
+          className={`px-3 py-2.5 md:px-5 md:py-3 text-xs md:text-sm font-semibold tracking-wide border-b-2 transition-all flex items-center gap-1.5 md:gap-2 cursor-pointer ${
             activePage === 'transcribe'
               ? 'border-cyan-400 text-cyan-400 bg-cyan-950/20 rounded-t-lg'
               : 'border-transparent text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)] hover:bg-slate-800/20 rounded-t-lg'
           }`}
         >
-          <Mic className="w-4 h-4" />
+          <Mic className="w-3.5 h-3.5 md:w-4 md:h-4" />
           Transcribe
         </button>
         <button
           onClick={() => setActivePage('knowledge-base')}
-          className={`px-5 py-3 text-sm font-semibold tracking-wide border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
+          className={`px-3 py-2.5 md:px-5 md:py-3 text-xs md:text-sm font-semibold tracking-wide border-b-2 transition-all flex items-center gap-1.5 md:gap-2 cursor-pointer ${
             activePage === 'knowledge-base'
               ? 'border-blue-400 text-blue-400 bg-blue-950/20 rounded-t-lg'
               : 'border-transparent text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)] hover:bg-slate-800/20 rounded-t-lg'
           }`}
         >
-          <BookOpen className="w-4 h-4" />
+          <BookOpen className="w-3.5 h-3.5 md:w-4 md:h-4" />
           Knowledge Base
         </button>
         <button
           onClick={() => setActivePage('batch-simulator')}
-          className={`px-5 py-3 text-sm font-semibold tracking-wide border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
+          className={`px-3 py-2.5 md:px-5 md:py-3 text-xs md:text-sm font-semibold tracking-wide border-b-2 transition-all flex items-center gap-1.5 md:gap-2 cursor-pointer ${
             activePage === 'batch-simulator'
               ? 'border-blue-400 text-blue-400 bg-blue-950/20 rounded-t-lg'
               : 'border-transparent text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)] hover:bg-slate-800/20 rounded-t-lg'
           }`}
         >
-          <Database className="w-4 h-4" />
+          <Database className="w-3.5 h-3.5 md:w-4 md:h-4" />
           Batch Simulator
         </button>
         <button
           onClick={() => setActivePage('pipeline-dashboard')}
-          className={`px-5 py-3 text-sm font-semibold tracking-wide border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
+          className={`px-3 py-2.5 md:px-5 md:py-3 text-xs md:text-sm font-semibold tracking-wide border-b-2 transition-all flex items-center gap-1.5 md:gap-2 cursor-pointer ${
             activePage === 'pipeline-dashboard'
               ? 'border-blue-400 text-blue-400 bg-blue-950/20 rounded-t-lg'
               : 'border-transparent text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)] hover:bg-slate-800/20 rounded-t-lg'
           }`}
         >
-          <Activity className="w-4 h-4" />
+          <Activity className="w-3.5 h-3.5 md:w-4 md:h-4" />
           Pipeline Analytics
         </button>
       </div>
